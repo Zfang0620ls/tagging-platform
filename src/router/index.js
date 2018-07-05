@@ -25,6 +25,11 @@ const Video = (resolve) => {
     resolve(module);
   })
 }
+const PageTask = (resolve) => {
+  import('@/views/pagesplit/pagetask').then((module) => {
+    resolve(module);
+  })
+}
 const PageSplit = (resolve) => {
   import('@/views/pagesplit/pagesplit').then((module) => {
     resolve(module);
@@ -93,11 +98,17 @@ let routes = [
     path:'/platform',
     component: Index,
     name: '页切分',
-    redirect: '/pagesplit',
+    redirect: '/pagetask',
     children:[
+      {
+        path:'/pagetask',
+        component: PageTask,
+        name:'页切分任务列表'
+      },
       {
         path:'/pagesplit',
         component: PageSplit,
+        name:'页切分'
       }
     ]
   },
@@ -124,7 +135,7 @@ let routes = [
         component: fontsplit,
       }
     ]
-  }, 
+  },
   {
     path:'/platform',
     component: Index,

@@ -16,6 +16,26 @@
           <p>此次标注(务有2项,分别是列切分标注和字框切分标注</p>
           <p>请分别点击这2项任务进行标注</p>
         </div>
+        <div class="tasklist">
+          <table>
+            <thead>
+              <tr>
+                <th>任务名称</th>
+                <th>任务总量</th>
+                <th>可标注量</th>
+                <th>已完成量</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>12345678@qq.com</td>
+                <td>管理员</td>
+                <td>2018-04-30</td>
+                <td>467</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       </div>
     </div>
@@ -29,16 +49,16 @@ export default {
   },
   data () {
     return {
-      msg: ''
+      list: []
     }
   },
   mounted(){
 
   },
   methods:{
-    
+
   }
-  
+
 }
 </script>
 <style lang="scss">
@@ -72,11 +92,48 @@ export default {
     height: 35px;
     line-height: 35px;
     a{
-      color:#429BF0;  
+      color:#429BF0;
     }
   }
   .content{
     margin-top: 20px;
+    .tasklist{
+      table{
+        border-collapse: collapse;
+        margin: 0 auto;
+        width: 100%;
+        thead{
+          th{
+            background-color: #f3f7fa;
+            border: 1px solid #e6e6e6;
+            text-align:center;
+            font-size:14px;
+            line-height: 40px;
+            font-weight:bold;
+            color: #5e7386;
+          }
+        }
+        tbody{
+          td{
+            border: 1px solid #e6e6e6;
+            color: #666;
+            height: 30px;
+            text-align:center;
+            font-size:12px;
+            padding:5px 3px;
+            span{
+              cursor:pointer;
+              color: #429BF0;
+              &:first-child{
+                margin-right: 10px;
+                color:#3bd2a2;
+              }
+            }
+          }
+        }
+
+      }
+    }
   }
   .tip p{
     line-height: 30px;

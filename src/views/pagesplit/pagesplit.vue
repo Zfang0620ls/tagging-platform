@@ -80,6 +80,7 @@ export default {
           }
       })
     },
+
   }
 }
 </script>
@@ -89,7 +90,7 @@ export default {
       text-align: center;
     }
   }
-  @import '../../common/style/maincontent.scss'
+  @import '../../common/style/maincontent.scss';
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>

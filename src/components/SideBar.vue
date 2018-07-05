@@ -8,8 +8,8 @@
                     首页
                   </router-link>
                 </li>
-                <li :class="{active:linkTo('/pagesplit')}">
-                  <router-link to="/pagesplit">
+                <li :class="{active:linkTo('/pagetask')}">
+                  <router-link to="/pagetask">
                     页切分标注
                   </router-link>
                 </li>
