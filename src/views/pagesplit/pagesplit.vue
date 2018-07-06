@@ -4,7 +4,7 @@
     <div class="content-wrapper">
       <div class="main-content">
         <div class="btns">
-      <span @click="getData('获取标注数据')" :class="{active:activeName === '获取标注数据'}">获取标注数据</span>
+      <!--<span @click="getData('获取标注数据')" :class="{active:activeName === '获取标注数据'}">获取标注数据</span>-->
       <span @click="examShow('查看示例')" :class="{active:activeName === '查看示例'}">查看示例</span>
       <span @click="introShow('标注说明')" :class="{active:activeName === '标注说明'}">标注说明</span>
     </div>
@@ -27,12 +27,8 @@
       </div>
     </el-dialog>
     <div class="container">
-        <div class="nodata" v-if="models.length === 0">
-          <p>暂无标注数据</p>
-          <p>请点击<em>获取标注数据按钮</em>获取标注任务</p>
-        </div>
-        <div class="imgdata" v-if="models.length !== 0">
-          <img :src="imgData.img_path" alt="">
+        <div class="imgdata">
+          <img :src="pagerect.img_path" alt="">
         </div>
     </div>
     <div class="submit fr">提交</div>
@@ -53,8 +49,16 @@ export default {
       activeName: '',
       examVisible:false,
       introVisible:false,
-      models:[],
+      pagesplitDetail:{},
       imgData:{},
+      pagerect:{}
+    }
+  },
+  created(){
+    if(JSON.parse(localStorage.getItem('pagesplitDetail'))){
+      this.pagesplitDetail = JSON.parse(localStorage.getItem('pagesplitDetail'));
+      this.pagerect = this.pagesplitDetail.pagerects[0];
+      console.log(this.pagerect);
     }
   },
   mounted(){
@@ -69,18 +73,6 @@ export default {
       this.activeName = curname;
       this.introVisible = true;
     },
-    getData(curname){
-      this.activeName = curname;
-      this.axios.get('/pagerect').then((res) => {
-          //console.log(res);
-          this.models = res.data.models;
-          if(res.data.models.length > 0){
-            this.imgData = res.data.models[0];
-            //console.log(this.imgData);
-          }
-      })
-    },
-
   }
 }
 </script>

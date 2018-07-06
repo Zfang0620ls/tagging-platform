@@ -1,5 +1,5 @@
 <template>
-  <div class="pagesplit" v-title="'页切分标注'">
+  <div class="pagesplit" v-title="'页切分标注任务列表'">
     <side-bar></side-bar>
     <div class="content-wrapper">
       <div class="main-content">
@@ -7,20 +7,20 @@
           <table>
             <thead>
             <tr>
-              <th>任务名称</th>
+              <th>任务编号</th>
               <th>状态</th>
               <th>优先级</th>
-              <th>已完成量</th>
+              <th>更新日期</th>
               <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>页切分标注</td>
-              <td>管理员</td>
-              <td>2018-04-30</td>
-              <td>467</td>
-              <td>领取</td>
+            <tr v-for="(item,index) in list">
+              <td>{{item.number}}</td>
+              <td>{{item.status}}</td>
+              <td>{{item.priority}}</td>
+              <td>{{item.update_date}}</td>
+              <td><span @click="goPagesplit(item)">开始</span></td>
             </tr>
             </tbody>
           </table>
@@ -48,8 +48,28 @@ export default {
     getTasklist(){
       this.axios.get('/pagetask').then((res) => {
         console.log(res);
+        this.list = res.data.models;
+        for(let i=0;i<this.list.length;i++){
+            if(this.list[i].status == 0){
+                this.list[i].status = '未领取'
+            }else if(this.list[i].status == 1){
+                this.list[i].status = '已过期'
+            }else if(this.list[i].status == 2){
+              this.list[i].status = '已放弃'
+            }else if(this.list[i].status == 4){
+              this.list[i].status = '处理中'
+            }else if(this.list[i].status == 5){
+              this.list[i].status = '已完成'
+            }else if(this.list[i].status == 6){
+              this.list[i].status = '已作废'
+            }
+        }
       })
-    }
+    },
+    goPagesplit(item){
+      localStorage.setItem('pagesplitDetail',JSON.stringify(item));
+      this.$router.push('/pagesplit');
+    },
   }
 }
 </script>
