@@ -28,7 +28,11 @@
     </el-dialog>
     <div class="container">
         <div class="imgdata">
-          <img :src="pagerect.img_path" alt="">
+          <!--<img :src="pagerect.img_path" alt="">-->
+          <canvas id="canvas" width=100% height=100%>
+            <!--<KeyEventOpt></KeyEventOpt>-->
+            <!--<MouseEventOpt :canvasId="canvasId" ></MouseEventOpt>-->
+          </canvas>
         </div>
     </div>
     <div class="submit fr">提交</div>
@@ -39,10 +43,15 @@
 
 <script>
 import SideBar from '../../components/SideBar'; //侧边栏
-import canvasOp from "../../components/canvas_op"; //canvasOp
+//import canvasOp from "../../components/canvas_op"; //canvasOp
+import KeyEventOpt from "../../components/keyevent_opt";
+import MouseEventOpt from "../../components/mouseevent_opt";
+import bus from '@/bus';
 export default {
   components:{
     SideBar,
+    KeyEventOpt,
+    MouseEventOpt
    },
   data () {
     return {
@@ -51,7 +60,8 @@ export default {
       introVisible:false,
       pagesplitDetail:{},
       imgData:{},
-      pagerect:{}
+      pagerect:{},
+      canvasId:'canvas'
     }
   },
   created(){
@@ -62,7 +72,8 @@ export default {
     }
   },
   mounted(){
-
+    this.drawScreen();
+    bus.$on('keyEvent', this.handleKeyEvent);
   },
   methods:{
     examShow(curname){
@@ -73,6 +84,35 @@ export default {
       this.activeName = curname;
       this.introVisible = true;
     },
+    //将图片转化为canvas画布并绘制框
+    drawScreen () {
+      var canvas = document.getElementById("canvas");
+      var ctx = canvas.getContext("2d");
+      var img = new Image();
+      img.src = this.pagerect.img_path; //图片
+      let rectw = this.pagerect.w; //获取框的宽
+      let recth = this.pagerect.h; //获取框的高
+      let rectx = this.pagerect.x; //获取框的宽
+      let recty = this.pagerect.y; //获取框的高
+      // 坐标(0,0) 表示从此处开始绘制，相当于偏移。
+      img.onload = function(){
+        canvas.width = img.width; //canvas宽度
+        canvas.height = img.height;//canvas高度
+        ctx.drawImage(img, 0, 0,canvas.width, canvas.height);
+        ctx.lineWidth = 2;        //设置边框线框
+        ctx.strokeStyle = "#f40000";//设置边框颜色
+        ctx.strokeRect(rectx, recty, rectw, recth);    //红色边框矩形
+       };
+    },
+//    handleKeyEvent: function (event) {
+//      if (event.type == 'keydown')
+//        this.$store.dispatch('handleKeyDownEvent', event);
+//      else if (event.type == 'keyup')
+//        this.$store.dispatch('handleKeyUpEvent', event);
+////      this.redraw_canvas();
+////      this.$emit('scrollToRect');
+//    },
+
   }
 }
 </script>
@@ -130,10 +170,10 @@ export default {
   }
   .container{
     width:100%;
-    min-height:350px;
+    height:600px;
     border:1px solid #e6e6e6;
     position: relative;
-    overflow-x:auto;
+    overflow:auto;
     box-sizing:border-box;
     .nodata{
       position: absolute;
