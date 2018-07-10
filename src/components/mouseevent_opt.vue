@@ -40,7 +40,7 @@
               this.current.corner = false;
             }
             var rect = _.find(rects, function(r) {
-              if (r.deleted) return false;
+//              if (r.deleted) return false;
               let corner = this.getHandle(mouse, r)
               if (corner) {
                 r.corner = corner;

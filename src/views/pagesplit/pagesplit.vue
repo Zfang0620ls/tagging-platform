@@ -26,14 +26,17 @@
         <p>2."快捷键使用说明：选中页框后按<em>上下左右</em>键可以调整边框的上下左右距离。"</p>
       </div>
     </el-dialog>
-    <div class="container">
-        <div class="imgdata">
-          <!--<img :src="pagerect.img_path" alt="">-->
-          <canvas id="canvas" width=100% height=100%>
-            <!--<KeyEventOpt></KeyEventOpt>-->
-            <!--<MouseEventOpt :canvasId="canvasId" ></MouseEventOpt>-->
-          </canvas>
-        </div>
+    <!--<div class="container">-->
+        <!--<div class="imgdata">-->
+          <!--&lt;!&ndash;<img :src="pagerect.img_path" alt="">&ndash;&gt;-->
+          <!--<canvas id="canvas" width=100% height=100% @keydown.native="keyEvent($event)">-->
+            <!--&lt;!&ndash;<KeyEventOpt></KeyEventOpt>&ndash;&gt;-->
+            <!--&lt;!&ndash;<MouseEventOpt :canvasId="canvasId" ></MouseEventOpt>&ndash;&gt;-->
+          <!--</canvas>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="container"  ref="wrapper">
+      <div><canvas-op :redraw="updateCanvas" @scrollToRect="scrollToRect"></canvas-op></div>
     </div>
     <div class="submit fr">提交</div>
       </div>
@@ -43,15 +46,13 @@
 
 <script>
 import SideBar from '../../components/SideBar'; //侧边栏
-//import canvasOp from "../../components/canvas_op"; //canvasOp
-import KeyEventOpt from "../../components/keyevent_opt";
-import MouseEventOpt from "../../components/mouseevent_opt";
+import canvasOp from "../../components/canvas_op"; //canvasOp
+import util from "@/libs/util";
 import bus from '@/bus';
 export default {
   components:{
     SideBar,
-    KeyEventOpt,
-    MouseEventOpt
+    canvasOp
    },
   data () {
     return {
@@ -59,21 +60,23 @@ export default {
       examVisible:false,
       introVisible:false,
       pagesplitDetail:{},
-      imgData:{},
       pagerect:{},
-      canvasId:'canvas'
+      updateCanvas: 1,
+      rects:[]
     }
   },
   created(){
+    //从localStorage中获取数据
     if(JSON.parse(localStorage.getItem('pagesplitDetail'))){
       this.pagesplitDetail = JSON.parse(localStorage.getItem('pagesplitDetail'));
+      this.rects = this.pagesplitDetail.pagerects;
       this.pagerect = this.pagesplitDetail.pagerects[0];
       console.log(this.pagerect);
     }
   },
   mounted(){
-    this.drawScreen();
-    bus.$on('keyEvent', this.handleKeyEvent);
+    this.getWorkData();
+    this.$store.commit('setScale', {scale: 1});
   },
   methods:{
     examShow(curname){
@@ -84,34 +87,27 @@ export default {
       this.activeName = curname;
       this.introVisible = true;
     },
-    //将图片转化为canvas画布并绘制框
-    drawScreen () {
-      var canvas = document.getElementById("canvas");
-      var ctx = canvas.getContext("2d");
-      var img = new Image();
-      img.src = this.pagerect.img_path; //图片
-      let rectw = this.pagerect.w; //获取框的宽
-      let recth = this.pagerect.h; //获取框的高
-      let rectx = this.pagerect.x; //获取框的宽
-      let recty = this.pagerect.y; //获取框的高
-      // 坐标(0,0) 表示从此处开始绘制，相当于偏移。
-      img.onload = function(){
-        canvas.width = img.width; //canvas宽度
-        canvas.height = img.height;//canvas高度
-        ctx.drawImage(img, 0, 0,canvas.width, canvas.height);
-        ctx.lineWidth = 2;        //设置边框线框
-        ctx.strokeStyle = "#f40000";//设置边框颜色
-        ctx.strokeRect(rectx, recty, rectw, recth);    //红色边框矩形
-       };
+    //绘制框
+    getWorkData() {
+      util.createImgObjWithUrl(this.pagerect.img_path).then(
+        function(v) {
+          this.$store.commit('setImageAndRects', {image: v.target, rects: this.rects})
+          this.updateCanvas += 1;
+        }.bind(this)
+      ).catch(function(err) {
+        console.log("图片载入失败"+ err);
+      });
     },
-//    handleKeyEvent: function (event) {
-//      if (event.type == 'keydown')
-//        this.$store.dispatch('handleKeyDownEvent', event);
-//      else if (event.type == 'keyup')
-//        this.$store.dispatch('handleKeyUpEvent', event);
-////      this.redraw_canvas();
-////      this.$emit('scrollToRect');
-//    },
+    scrollToRect() {
+      let scale = this.$store.getters.scale;
+      let rect = this.$store.getters.curRect;
+      let x = Math.max(rect.x * scale - (window.innerWidth/3), rect.x);
+      let y = Math.max(rect.y * scale - (window.innerHeight/3), rect.y);
+      this.$nextTick(function() {
+        this.$refs.wrapper.scrollTo(x, y);
+      });
+      window.wrapper = this.$refs.wrapper;
+    },
 
   }
 }

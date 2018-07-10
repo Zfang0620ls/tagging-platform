@@ -58,41 +58,41 @@
       updateCanvas: function(image, canvas, ctx, scale) {
         canvas.width = image.width * scale;
         canvas.height = image.height * scale;
-        ctx.drawImage(image, 0, 0, image.naturalWidth || image.width, image.naturalHeight || image.height, 0, 0, image.width * scale, image.height * scale);
+        ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, image.width * scale, image.height * scale);
         this.drawAllRect(ctx, scale);
       },
       drawAllRect: function(ctx, scale){
         let current = this.$store.getters.curRect;
         let rects = this.$store.getters.rects;
+        //console.log(rects);
         let cover = this.$store.getters.cover;
         window.rects = rects;
         _(rects).forEach(function(rect,i){
           ctx.lineWidth=1.5*scale;
           ctx.globalAlpha = 0.5;
 
-          if (rect.deleted || rect.op == 3) {
-            ctx.fillStyle = '#000000a0';
+          if (rect.op == 3) {
+            ctx.fillStyle = '#0000a0';
             ctx.lineWidth=4*scale;
-          } else if (rect.changed || rect.op == 2) {
+          } else if (rect.op == 2) {
             ctx.strokeStyle="#2aa766"; //green
             ctx.fillStyle = '#0000';
             ctx.lineWidth= 2*scale;
           } else {
-            rect.red = rect.red || util.getRed();
-            ctx.strokeStyle=rect.red;
+            ctx.strokeStyle=util.getRed();
             ctx.fillStyle = '#0000';
           }
           if (rect.kselected) {
-            ctx.strokeStyle="#db6161bf"; // green // #e32764e6
-            ctx.fillStyle = '#db6161a0';
+            ctx.strokeStyle="#db6161"; // green // #e32764e6
+            ctx.fillStyle = '#db6161';
             if (rect.deleted) {
-              ctx.fillStyle = '#000000a0';
+              ctx.fillStyle = '#0000a0';
             }
           } else if (rect == current) {
-            ctx.strokeStyle = "#1892e8bf"; // blue
-            ctx.fillStyle = '#1892e8a0';
+            ctx.strokeStyle = "#1892e8"; // blue
+            ctx.fillStyle = '#1892e8';
             if (rect.deleted) {
-              ctx.fillStyle = '#000000a0';
+              ctx.fillStyle = '#0000a0';
             }
             ctx.lineWidth=1*scale;
           }
