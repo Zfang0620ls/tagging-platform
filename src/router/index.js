@@ -35,6 +35,11 @@ const PageSplit = (resolve) => {
     resolve(module);
   })
 }
+const ColumnTask = (resolve) => {
+  import('@/views/columnsplit/columntask').then((module) => {
+    resolve(module);
+  })
+}
 const ColumnSplit = (resolve) => {
   import('@/views/columnsplit/columnsplit').then((module) => {
     resolve(module);
@@ -116,11 +121,17 @@ let routes = [
     path:'/platform',
     component: Index,
     name: '列切分',
-    redirect: '/columnsplit',
+    redirect: '/columntask',
     children:[
+      {
+        path:'/columntask',
+        component: ColumnTask,
+        name:'列切分任务列表'
+      },
       {
         path:'/columnsplit',
         component: ColumnSplit,
+        name:"列切分标注"
       }
     ]
   },

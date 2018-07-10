@@ -13,8 +13,8 @@
                     页切分标注
                   </router-link>
                 </li>
-                <li :class="{active:linkTo('/columnsplit')}">
-                  <router-link to="/columnsplit">
+                <li :class="{active:linkTo('/columntask')}">
+                  <router-link to="/columntask">
                     列切分标注
                   </router-link>
                 </li>
@@ -46,9 +46,12 @@ export default {
   methods:{
   	 linkTo(path){
        var route_link = this.$route.path;
-       console.log(route_link);
+       //console.log(route_link);
        if(route_link === '/pagesplit'){
          route_link = "/pagetask";
+       }
+       if(route_link === '/columnsplit'){
+         route_link = "/columntask";
        }
        if(path === route_link){
          return true
