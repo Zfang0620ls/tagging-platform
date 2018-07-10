@@ -46,7 +46,7 @@ export default {
   },
   methods:{
     getTasklist(){
-      this.axios.get('/pagetask').then((res) => {
+      this.axios.get('/pagetask/').then((res) => {
         console.log(res);
         this.list = res.data.models;
         for(let i=0;i<this.list.length;i++){

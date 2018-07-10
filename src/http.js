@@ -5,17 +5,20 @@ import router from "./router/index";
 if (process.env.NODE_ENV==="production"){
   //axios.defaults.baseURL = '';
 }else{
-  axios.defaults.baseURL = 'http://dev-version.lqdzj.cn/api';
+  axios.defaults.baseURL = 'http://54.223.95.136/api';
 }
 // 拦截器
 axios.interceptors.request.use(
   config => {
-    if (window.localStorage.getItem('token')) {
-          config.headers = {
-              'X-Token':window.localStorage.getItem('token'),
-              'Content-Type':"application/json;charset=UTF-8"
-          }
-      }
+    // if (window.localStorage.getItem('token')) {
+    //       config.headers = {
+    //           'X-Token':window.localStorage.getItem('token'),
+    //           'Content-Type':"application/json;charset=UTF-8"
+    //       }
+    //   }
+    config.headers = {
+      'Content-Type':"application/json;charset=UTF-8"
+    }
     return config;
   },
   err => {

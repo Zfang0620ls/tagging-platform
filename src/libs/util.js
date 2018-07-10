@@ -20,8 +20,7 @@ let util = {
     return tnCanvas.toDataURL("image/png");
   },
   createImgObjWithUrl(url) {
-    // console.log('Img ' + url)
-    return new Promise(function(resolve, reject){
+    return new Promise((resolve, reject) => {
       let image = new Image();
       image.crossOrigin = "*";
       image.onload = function(e){
@@ -43,8 +42,6 @@ let util = {
       let column_path = column_code.split('_').subarray(0,-2).join("/")
       return "https://s3.cn-north-1.amazonaws.com.cn/lqdzj-col/" + column_path + "/" + column_code + ".jpg"
     }
-    //说明column_code不匹配规则, 默认显示加载中...todo 后续改加载失败的图片.
-    // this.clip = '/static/img/FhHRx.gif';
   },
   getRed(){
     let random = Math.random();

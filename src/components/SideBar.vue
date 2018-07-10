@@ -46,6 +46,10 @@ export default {
   methods:{
   	 linkTo(path){
        var route_link = this.$route.path;
+       console.log(route_link);
+       if(route_link === '/pagesplit'){
+         route_link = "/pagetask";
+       }
        if(path === route_link){
          return true
        }

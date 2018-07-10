@@ -11,7 +11,6 @@
   import KeyEventOpt from "./keyevent_opt";
   import MouseEventOpt from "./mouseevent_opt";
   import bus from '@/bus';
-  // http://cheatsheetworld.com/programming/html5-canvas-cheat-sheet/
   export default {
     name: 'canvasOp',
     components: {KeyEventOpt, MouseEventOpt},
@@ -26,8 +25,11 @@
         this.redraw_canvas();
       }
     },
+    mounted: function(){
+      bus.$on('keyEvent', this.handleKeyEvent);
+    },
     methods: {
-      setInitCanvasImage: function(){
+      setInitCanvasImage(){
         let canvas = document.getElementById('canvas-scope');
         canvas.width = 300;
         canvas.height = window.innerHeight;
@@ -45,7 +47,7 @@
         ctx.strokeText("Operate Area", 0, 0);
         ctx.save();
       },
-      redraw_canvas: function() {
+      redraw_canvas() {
         let canvas = document.getElementById('canvas-scope');
         let ctx = canvas.getContext('2d');
         let image = this.$store.getters.image;
@@ -55,36 +57,36 @@
         }
         this.updateCanvas(image, canvas, ctx, scale);
       },
-      updateCanvas: function(image, canvas, ctx, scale) {
+      updateCanvas(image, canvas, ctx, scale) {
         canvas.width = image.width * scale;
         canvas.height = image.height * scale;
         ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, image.width * scale, image.height * scale);
         this.drawAllRect(ctx, scale);
       },
-      drawAllRect: function(ctx, scale){
+      drawAllRect(ctx, scale){
         let current = this.$store.getters.curRect;
         let rects = this.$store.getters.rects;
         //console.log(rects);
-        let cover = this.$store.getters.cover;
+        let cover = this.$store.getters.cover; //false
         window.rects = rects;
-        _(rects).forEach(function(rect,i){
+        _(rects).forEach((rect,i) => {
           ctx.lineWidth=1.5*scale;
           ctx.globalAlpha = 0.5;
-
+          //op:1 初始状态, 未被人工校对过的. 2.代表被更改 3.代表被删除 4.文字识别  5.文字校对
           if (rect.op == 3) {
             ctx.fillStyle = '#0000a0';
             ctx.lineWidth=4*scale;
           } else if (rect.op == 2) {
             ctx.strokeStyle="#2aa766"; //green
-            ctx.fillStyle = '#0000';
+            ctx.fillStyle = '#2aa766';
             ctx.lineWidth= 2*scale;
           } else {
-            ctx.strokeStyle=util.getRed();
-            ctx.fillStyle = '#0000';
+            ctx.strokeStyle= '#666';
+            ctx.fillStyle = '#666';
           }
           if (rect.kselected) {
-            ctx.strokeStyle="#db6161"; // green // #e32764e6
-            ctx.fillStyle = '#db6161';
+            ctx.strokeStyle="#2aa766"; // green
+            ctx.fillStyle = '#2aa766';
             if (rect.deleted) {
               ctx.fillStyle = '#0000a0';
             }
@@ -99,16 +101,16 @@
           ctx.strokeRect(rect.x*scale, rect.y*scale, rect.w*scale, rect.h*scale);
           ctx.fillRect(rect.x*scale, rect.y*scale, rect.w*scale, rect.h*scale);
           this.draw_corner(ctx, rect, scale);
-        }.bind(this));
+        });
         let refRects = this.$store.getters.refRects;
-        _(refRects).forEach(function(rect,i){
+        _(refRects).forEach((rect,i) => {
           rect.red = rect.red || util.getRed();
           ctx.lineWidth=1.5*scale;
           ctx.strokeStyle=rect.red;
           ctx.strokeRect(rect.x*scale, rect.y*scale, rect.w*scale, rect.h*scale);
-        }.bind(this));
+        });
       },
-      draw_corner: function(ctx, rect, scale) {
+      draw_corner(ctx, rect, scale) {
         if (rect.corner) {
           let posHandle = {x:0, y:0};
           switch (rect.corner) {
@@ -151,10 +153,10 @@
           ctx.fill();
         }
       },
-      update_canvas: function (current) {
+      update_canvas(current) {
         this.redraw_canvas();
       },
-      handleKeyEvent: function (event) {
+      handleKeyEvent(event) {
         if (event.type == 'keydown')
           this.$store.dispatch('handleKeyDownEvent', event);
         else if (event.type == 'keyup')
@@ -163,9 +165,6 @@
         this.$emit('scrollToRect');
       },
     },
-    mounted: function(){
-      this.setInitCanvasImage()
-      bus.$on('keyEvent', this.handleKeyEvent);
-    }
+
   };
 </script>

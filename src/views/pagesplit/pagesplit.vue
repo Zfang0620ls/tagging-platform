@@ -35,7 +35,7 @@
           <!--</canvas>-->
         <!--</div>-->
     <!--</div>-->
-    <div class="container"  ref="wrapper">
+    <div class="container"  ref="wrapper" :style="{height: inner_height}">
       <div><canvas-op :redraw="updateCanvas" @scrollToRect="scrollToRect"></canvas-op></div>
     </div>
     <div class="submit fr">提交</div>
@@ -49,6 +49,7 @@ import SideBar from '../../components/SideBar'; //侧边栏
 import canvasOp from "../../components/canvas_op"; //canvasOp
 import util from "@/libs/util";
 import bus from '@/bus';
+import {mapState} from "vuex";
 export default {
   components:{
     SideBar,
@@ -59,10 +60,27 @@ export default {
       activeName: '',
       examVisible:false,
       introVisible:false,
+      inner_height: 100,
       pagesplitDetail:{},
       pagerect:{},
       updateCanvas: 1,
       rects:[]
+    }
+  },
+  computed: {
+    // Make sure canvas is properly displayed within the window height.
+    ...mapState({
+      solidRects: state => state.canvas.rects,
+      curRect: state => state.canvas.curRect,
+    })
+  },
+  watch: {
+    curRect(val, oldVal) {
+      if (_.filter(this.solidRects, function(o) { return !o.kselmarked }).length != 0) {
+        this.submitType = 'error'
+      } else {
+        this.submitType = 'success';
+      }
     }
   },
   created(){
@@ -89,21 +107,32 @@ export default {
     },
     //绘制框
     getWorkData() {
-      util.createImgObjWithUrl(this.pagerect.img_path).then(
-        function(v) {
+      util.createImgObjWithUrl(this.pagerect.img_path).then((v) => {
           this.$store.commit('setImageAndRects', {image: v.target, rects: this.rects})
           this.updateCanvas += 1;
-        }.bind(this)
-      ).catch(function(err) {
+        }).catch((err) => {
         console.log("图片载入失败"+ err);
       });
     },
     scrollToRect() {
       let scale = this.$store.getters.scale;
+      let canvas = document.getElementsByClassName('container')[0];
+      let viewWidth = canvas.clientWidth;
+      let viewHeight = canvas.clientHeight -20;
+      let offsetTop = canvas.scrollTop;
+      let offsetLeft = canvas.scrollLeft;
+
       let rect = this.$store.getters.curRect;
+
+      if (rect.y * scale > offsetTop && rect.y * scale + rect.h < offsetTop + viewHeight) {
+        if (rect.x * scale > offsetLeft && rect.x * scale + rect.w < offsetLeft + viewWidth) {
+          return true
+        }
+      }
+
       let x = Math.max(rect.x * scale - (window.innerWidth/3), rect.x);
       let y = Math.max(rect.y * scale - (window.innerHeight/3), rect.y);
-      this.$nextTick(function() {
+      this.$nextTick(() => {
         this.$refs.wrapper.scrollTo(x, y);
       });
       window.wrapper = this.$refs.wrapper;
