@@ -85,8 +85,9 @@ export default {
   },
   created(){
     //从localStorage中获取数据
-    if(JSON.parse(localStorage.getItem('pagesplitDetail'))){
-      this.pagesplitDetail = JSON.parse(localStorage.getItem('pagesplitDetail'));
+    var task = localStorage.getItem('pagesplitDetail')
+    if(JSON.parse(task)){
+      this.pagesplitDetail = JSON.parse(task);
       this.rects = this.pagesplitDetail.pagerects;
       this.pagerect = this.pagesplitDetail.pagerects[0];
       console.log(this.pagerect);
@@ -109,6 +110,7 @@ export default {
     getWorkData() {
       util.createImgObjWithUrl(this.pagerect.img_path).then((v) => {
           this.$store.commit('setImageAndRects', {image: v.target, rects: this.rects})
+          this.$store.commit('setCurRect', {rect: this.pagerect});
           this.updateCanvas += 1;
         }).catch((err) => {
         console.log("图片载入失败"+ err);
