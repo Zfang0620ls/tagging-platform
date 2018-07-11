@@ -4,7 +4,7 @@
     <div class="content-wrapper">
       <div class="main-content">
         <div class="btns">
-      <span @click="getData('获取标注数据')" :class="{active:activeName === '获取标注数据'}">获取标注数据</span>
+      <!--<span @click="getData('获取标注数据')" :class="{active:activeName === '获取标注数据'}">获取标注数据</span>-->
       <span @click="examShow('查看示例')" :class="{active:activeName === '查看示例'}">查看示例</span>
       <span @click="introShow('标注说明')" :class="{active:activeName === '标注说明'}">标注说明</span>
     </div>
@@ -29,11 +29,8 @@
       </div>
     </el-dialog>
     <div class="container clearfix">
-      <div class="left fl">
-        <div class="nodata">
-            <p>暂无标注数据</p>
-            <p>请点击<em>获取标注数据按钮</em>获取标注任务</p>
-          </div>
+      <div class="left fl canvas-layout" ref="wrapper" :style="{height: inner_height}">
+        <div><canvas-op :redraw="updateCanvas" @scrollToRect="scrollToRect"></canvas-op></div>
       </div>
       <div class="right fr">
         <div class="nodata">
@@ -48,16 +45,52 @@
 </template>
 
 <script>
-import SideBar from '../../components/SideBar'
+import  _ from 'lodash';
+import SideBar from '../../components/SideBar';
+import canvasOp from "../../components/canvas_op"; //canvasOp
+import util from "@/libs/util";
+import bus from '@/bus';
+import {mapState} from "vuex";
 export default {
    components:{
     SideBar,
+    canvasOp
    },
   data () {
     return {
       activeName: '',
       examVisible:false,
       introVisible:false,
+      pagerectId:'',
+      inner_height: 100,
+      updateCanvas: 1,
+      image_url:'https://s3.cn-north-1.amazonaws.com.cn/lqdzj-image/QL/19/QL_19_627.jpg',
+      rects:[],
+      current:{}
+    }
+  },
+  computed: {
+    ...mapState({
+      solidRects: state => state.canvas.rects,
+      curRect: state => state.canvas.curRect,
+    })
+  },
+  watch: {
+    curRect(val, oldVal) {
+      if (_.filter(this.solidRects, function(o) { return !o.kselmarked }).length != 0) {
+        this.submitType = 'error'
+      } else {
+        this.submitType = 'success';
+      }
+    }
+  },
+  mounted(){
+    this.$store.commit('setScale', {scale: 1});
+    //获取id
+    if(this.$route.query.pagerect){
+      this.pagerectId = this.$route.query.pagerect;
+      //console.log(this.pagerectId);
+      this.getWorkingData();
     }
   },
   methods:{
@@ -68,6 +101,42 @@ export default {
     introShow(curname){
       this.activeName = curname;
       this.introVisible = true;
+    },
+    getWorkingData(){
+        let url = '/columnrect/?pagerect=' + this.pagerectId;
+        this.axios.get(url).then((res) => {
+          //console.log(res);
+          this.rects = res.data.models;
+          this.current = _.find(this.rects, function(r) { return r.x == res.data.x && r.y == res.data.y}) || this.current;
+          util.createImgObjWithUrl(this.image_url).then((v) => {
+            this.$store.commit('setImageAndRects', {image: v.target, rects: this.rects})
+            this.$store.commit('setCurRect', {rect: this.current});
+            this.updateCanvas += 1;
+          }).catch((err) => {
+            console.log("图片载入失败"+ err);
+          });
+        })
+    },
+    scrollToRect() {
+      let scale = this.$store.getters.scale;
+      let canvas = document.getElementsByClassName(' canvas-layout')[0];
+      let viewWidth = canvas.clientWidth;
+      let viewHeight = canvas.clientHeight;
+      let offsetTop = canvas.scrollTop;
+      let offsetLeft = canvas.scrollLeft;
+      let rect = this.$store.getters.curRect;
+      if (rect.y * scale > offsetTop && rect.y * scale + rect.h < offsetTop + viewHeight) {
+        if (rect.x * scale > offsetLeft && rect.x * scale + rect.w < offsetLeft + viewWidth) {
+          return true
+        }
+      }
+
+      let x = Math.max(rect.x * scale - (window.innerWidth/3), rect.x);
+      let y = Math.max(rect.y * scale - (window.innerHeight/3), rect.y);
+      this.$nextTick(() => {
+        this.$refs.wrapper.scrollTo(x, y);
+      });
+      window.wrapper = this.$refs.wrapper;
     },
   },
 }
@@ -128,12 +197,12 @@ export default {
   	position: relative;
   	.left{
   		width: 73%;
-  		min-height:500px;
+  		height:500px;
   		border:1px solid #e6e6e6;
   		box-sizing:border-box;
   		margin-right: 2%;
   		position: relative;
-  		overflow-x:auto;
+  		overflow:auto;
   		.nodata{
 	      position: absolute;
 	      left:50%;
@@ -153,11 +222,11 @@ export default {
   	}
   	.right{
   		width: 25%;
-  		min-height:500px;
+  		height:500px;
   		border:1px solid #e6e6e6;
   		box-sizing:border-box;
   		position: relative;
-  		overflow-x:auto;
+  		overflow:auto;
   		.nodata{
 		  position: absolute;
 	      left:50%;

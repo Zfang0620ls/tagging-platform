@@ -20,7 +20,7 @@
               <td>{{item.status}}</td>
               <td>{{item.priority}}</td>
               <td>{{item.update_date}}</td>
-              <td><span @click="goPagesplit(item)">开始</span></td>
+              <td><span @click="goColumnsplit(item.pagerects[0])">开始</span></td>
             </tr>
             </tbody>
           </table>
@@ -66,9 +66,9 @@ export default {
         }
       })
     },
-    goPagesplit(item){
-      //this.$router.push('/pagesplit');
-      
+    goColumnsplit(pagerectId){
+      var hash = 'columnsplit?pagerect=' + encodeURIComponent(pagerectId);
+      location.href = window.location.protocol+"//"+window.location.host+"/#/"+hash;
     },
   }
 }

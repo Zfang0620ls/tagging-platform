@@ -70,31 +70,33 @@
         let cover = this.$store.getters.cover; //false
         window.rects = rects;
         _(rects).forEach((rect,i) => {
-          ctx.lineWidth=1.5*scale;
+          ctx.lineWidth=2*scale;
           ctx.globalAlpha = 0.5;
           //op:1 初始状态, 未被人工校对过的. 2.代表被更改 3.代表被删除 4.文字识别  5.文字校对
-          if (rect.op == 3) {
-            ctx.fillStyle = '#0000a0';
-            ctx.lineWidth=4*scale;
-          } else if (rect.op == 2) {
-            ctx.strokeStyle="#2aa766"; //green
-            ctx.fillStyle = '#2aa766';
+          if (rect.deleted || rect.op == 3) {
+            ctx.fillStyle = '#0000a0'; //blue
+            ctx.strokeStyle="#0000a0";
+            ctx.lineWidth=2*scale;
+          } else if (rect.changed || rect.op == 2) {
+            ctx.strokeStyle="#D89020"; //橙色
+            ctx.fillStyle = '#D89020';
             ctx.lineWidth= 2*scale;
-          } else {
-            ctx.strokeStyle= '#666';
+          }else {
+            ctx.strokeStyle= '#666'; //初始状态灰色
             ctx.fillStyle = '#666';
+            ctx.lineWidth= 2*scale;
           }
           if (rect.kselected) {
-            ctx.strokeStyle="#2aa766"; // green
+            ctx.strokeStyle="#2aa766"; // 选中green
             ctx.fillStyle = '#2aa766';
             if (rect.deleted) {
-              ctx.fillStyle = '#0000a0';
+              ctx.fillStyle = '#f40'; //红色  删除
             }
           } else if (rect == current) {
-            ctx.strokeStyle = "#1892e8"; // blue
+            ctx.strokeStyle = "#1892e8"; // 蓝色
             ctx.fillStyle = '#1892e8';
             if (rect.deleted) {
-              ctx.fillStyle = '#0000a0';
+              ctx.fillStyle = '#f40';
             }
             ctx.lineWidth=1*scale;
           }

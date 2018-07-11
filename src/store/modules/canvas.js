@@ -262,7 +262,7 @@ const canvas = {
 
     setCtrlState(state, payload) {
       state.ctrlPressed = payload.press;
-      console.log('set ctrlPressed ' + state.ctrlPressed)
+      //console.log('set ctrlPressed ' + state.ctrlPressed)
     },
 
     setSelectState(state, payload) {
@@ -312,10 +312,9 @@ const canvas = {
   },
   actions: {
     handleKeyDownEvent({commit, state}, payload) {
-      console.log(state.curRect.empty);
+      //console.log(state.curRect.empty);
       let action = payload.action;
       let cur = state.curRect.empty? state.rects[0] : state.curRect;
-
       if (!cur) return;
 
       if (_(action).startsWith('scale')) {

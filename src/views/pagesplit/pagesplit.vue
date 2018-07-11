@@ -23,19 +23,17 @@
       <div class="text">
         <p>标注说明：</p>
         <p>1.您需要检查图片外边框是否将图片完全圈住，如有切到图片内字体的情况请调整边框大小。</p>
-        <p>2."快捷键使用说明：选中页框后按<em>上下左右</em>键可以调整边框的上下左右距离。"</p>
+        <p>2.使用鼠标按住页框的上下左右四个角可进行放大缩小页框。</p>
+        <p>3.快捷键使用说明：</p>
+        <p>首先使用空格键选中页框再进行以下操作：</p>
+        <p>选中页框后： 按<em>shift 加上 ↑ ↓ ← →</em>键可以将对应的边往外调大;</p>
+        <p>选中页框后： 按<em>alt 加上 ↑ ↓ ← →</em>键可以将对应的边往内调小;</p>
+        <p>选中页框后： 按<em>↑ ↓ ← →</em>键可以上下左右移动页框;</p>
+        <p>选中页框后： 按<em>W+↑ S+↓ A+← D+→</em>键也可以上下左右移动页框;</p>
+        <p>操作完成后按空格键释放页框</p>
       </div>
     </el-dialog>
-    <!--<div class="container">-->
-        <!--<div class="imgdata">-->
-          <!--&lt;!&ndash;<img :src="pagerect.img_path" alt="">&ndash;&gt;-->
-          <!--<canvas id="canvas" width=100% height=100% @keydown.native="keyEvent($event)">-->
-            <!--&lt;!&ndash;<KeyEventOpt></KeyEventOpt>&ndash;&gt;-->
-            <!--&lt;!&ndash;<MouseEventOpt :canvasId="canvasId" ></MouseEventOpt>&ndash;&gt;-->
-          <!--</canvas>-->
-        <!--</div>-->
-    <!--</div>-->
-    <div class="container"  ref="wrapper" :style="{height: inner_height}">
+    <div class="container canvas-layout"  ref="wrapper" :style="{height: inner_height}">
       <div><canvas-op :redraw="updateCanvas" @scrollToRect="scrollToRect"></canvas-op></div>
     </div>
     <div class="submit fr">提交</div>
@@ -68,7 +66,6 @@ export default {
     }
   },
   computed: {
-    // Make sure canvas is properly displayed within the window height.
     ...mapState({
       solidRects: state => state.canvas.rects,
       curRect: state => state.canvas.curRect,
@@ -90,7 +87,7 @@ export default {
       this.pagesplitDetail = JSON.parse(task);
       this.rects = this.pagesplitDetail.pagerects;
       this.pagerect = this.pagesplitDetail.pagerects[0];
-      console.log(this.pagerect);
+      //console.log(this.pagerect);
     }
   },
   mounted(){
@@ -118,7 +115,7 @@ export default {
     },
     scrollToRect() {
       let scale = this.$store.getters.scale;
-      let canvas = document.getElementsByClassName('container')[0];
+      let canvas = document.getElementsByClassName(' canvas-layout')[0];
       let viewWidth = canvas.clientWidth;
       let viewHeight = canvas.clientHeight -20;
       let offsetTop = canvas.scrollTop;
