@@ -38,11 +38,11 @@
       <div class="left fl canvas-layout" ref="wrapper" :style="{height: inner_height}">
         <div><canvas-op :redraw="updateCanvas" @scrollToRect="scrollToRect"></canvas-op></div>
       </div>
-      <div class="right fr">
-        <div class="nodata">
-            <p>列切分标注</p>
-          </div>
-      </div>
+      <!--<div class="right fr">-->
+        <!--<div class="nodata">-->
+            <!--<p>列切分标注</p>-->
+          <!--</div>-->
+      <!--</div>-->
     </div>
     <div class="submit fr">提交</div>
       </div>
@@ -202,7 +202,8 @@ export default {
   .container{
   	position: relative;
   	.left{
-  		width: 73%;
+  		/*width: 73%;*/
+      width:100%;
   		height:500px;
   		border:1px solid #e6e6e6;
   		box-sizing:border-box;

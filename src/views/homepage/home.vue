@@ -11,10 +11,8 @@
       </div>
       <div class="content">
         <div class="tip">
-          <p>感恩随喜各位师兄用功功德</p>
-          <p>您的每一次时心、细心的标注都是在为大藏经编修事业添砖加瓦</p>
-          <p>此次标注(务有2项,分别是列切分标注和字框切分标注</p>
-          <p>请分别点击这2项任务进行标注</p>
+          <p>感恩随喜各位师兄用功功德!</p>
+          <p>您的每一次时心、细心的标注都是在为大藏经编修事业添砖加瓦!</p>
         </div>
         <div class="tasklist">
           <table>
@@ -135,8 +133,27 @@ export default {
       }
     }
   }
-  .tip p{
-    line-height: 30px;
-    color: #626262;
+  .tip {
+    margin-bottom:20px;
+    padding:15px 10px;
+    background-color: #f8f8f8;
+    position: relative;
+    &:after{
+      position: absolute;
+      content:"";
+      left:3px;
+      top:6px;
+      width:300px;
+      height:516px;
+      background:url(../../assets/hehua.png) no-repeat;
+      background-size:41px 70px;
+    }
+    p{
+      line-height: 26px;
+      color: #626262;
+      font-size:14px;
+      font-weight:bold;
+      padding-left:43px;
+    }
   }
 </style>
