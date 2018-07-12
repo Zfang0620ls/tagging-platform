@@ -25,11 +25,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>12345678@qq.com</td>
-                <td>管理员</td>
-                <td>2018-04-30</td>
-                <td>467</td>
+              <tr v-for="(item,index) in list">
+                <td>{{item.name}}</td>
+                <td>{{item.count}}</td>
+                <td>{{item.rect_avail}}</td>
+                <td>{{item.rect_completed}}</td>
               </tr>
             </tbody>
           </table>
@@ -51,10 +51,15 @@ export default {
     }
   },
   mounted(){
-
+    this.getWorkingData();
   },
   methods:{
-
+    getWorkingData(){
+      this.axios.get('/task_statistics').then((res) => {
+        //console.log(res);
+        this.list = res.data.data;
+      })
+    }
   }
 
 }
