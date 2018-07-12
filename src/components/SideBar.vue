@@ -19,8 +19,8 @@
                   </router-link>
                 </li>
                 <!--<li>字框切分标注</li>-->
-                <li :class="{active:linkTo('/fontsplit')}">
-                  <router-link to="/fontsplit">
+                <li :class="{active:linkTo('/fonttask')}">
+                  <router-link to="/fonttask">
                     字框切分标注
                   </router-link>
                 </li>
@@ -52,6 +52,9 @@ export default {
        }
        if(route_link === '/columnsplit'){
          route_link = "/columntask";
+       }
+       if(route_link === '/fontsplit'){
+         route_link = "/fonttask";
        }
        if(path === route_link){
          return true

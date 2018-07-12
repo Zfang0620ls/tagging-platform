@@ -45,13 +45,18 @@ const ColumnSplit = (resolve) => {
     resolve(module);
   })
 }
-const fontsplit = (resolve) => {
+const FontTask = (resolve) => {
+  import('@/views/fontsplit/fonttask').then((module) => {
+    resolve(module);
+  })
+}
+const FontSplit = (resolve) => {
   import('@/views/fontsplit/fontsplit').then((module) => {
     resolve(module);
   })
 }
 
-const textSplit = (resolve) => {
+const TextSplit = (resolve) => {
   import('@/views/textSplit/textSplit').then((module) => {
     resolve(module);
   })
@@ -113,7 +118,7 @@ let routes = [
       {
         path:'/pagesplit',
         component: PageSplit,
-        name:'页切分'
+        name:'页切分标注'
       }
     ]
   },
@@ -138,24 +143,30 @@ let routes = [
   {
     path:'/platform',
     component: Index,
-    name: '字框切分标注',
-    redirect: '/fontsplit',
+    name: '字框切分',
+    redirect: '/fonttask',
     children:[
       {
+        path:'/fonttask',
+        component: FontTask,
+        name:"字框切分任务列表"
+      },
+      {
         path:'/fontsplit',
-        component: fontsplit,
+        component: FontSplit,
+        name:"字框切分标注"
       }
     ]
   },
   {
     path:'/platform',
     component: Index,
-    name: '文本识别标注',
+    name: '文本识别',
     redirect: '/textsplit',
     children:[
       {
         path:'/textsplit',
-        component: textSplit,
+        component: TextSplit,
       }
     ]
   },

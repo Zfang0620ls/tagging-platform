@@ -38,6 +38,7 @@
       <div class="left fl canvas-layout" ref="wrapper" :style="{height: inner_height}">
         <div><canvas-op :redraw="updateCanvas" @scrollToRect="scrollToRect"></canvas-op></div>
       </div>
+      <!--预览功能暂不实现-->
       <!--<div class="right fr">-->
         <!--<div class="nodata">-->
             <!--<p>列切分标注</p>-->
@@ -70,9 +71,10 @@ export default {
       pagerectId:'',
       inner_height: 100,
       updateCanvas: 1,
-      image_url:'https://s3.cn-north-1.amazonaws.com.cn/lqdzj-image/QL/19/QL_19_627.jpg',
+      image_url:'',
       rects:[],
-      current:{}
+      current:{},
+      pagesplitDetail:{},
     }
   },
   computed: {
@@ -90,14 +92,18 @@ export default {
       }
     }
   },
+  created(){
+    //获取每页的信息
+    var task = localStorage.getItem('columnsplitDetail');
+    if(JSON.parse(task)){
+      this.pagesplitDetail = JSON.parse(task);
+      this.pagerectId      = this.pagesplitDetail.pagerects[0].id;
+      this.image_url       = this.pagesplitDetail.pagerects[0].img_path;
+    }
+  },
   mounted(){
     this.$store.commit('setScale', {scale: 1});
-    //获取id
-    if(this.$route.query.pagerect){
-      this.pagerectId = this.$route.query.pagerect;
-      //console.log(this.pagerectId);
-      this.getWorkingData();
-    }
+    this.getWorkingData();
   },
   methods:{
   	examShow(curname){
@@ -111,7 +117,7 @@ export default {
     getWorkingData(){
         let url = '/columnrect/?pagerect=' + this.pagerectId;
         this.axios.get(url).then((res) => {
-          //console.log(res);
+          console.log(res);
           this.rects = res.data.models;
           this.current = _.find(this.rects, function(r) { return r.x == res.data.x && r.y == res.data.y}) || this.current;
           util.createImgObjWithUrl(this.image_url).then((v) => {
@@ -153,7 +159,7 @@ export default {
       text-align: center;
     }
   }
-  @import '../../common/style/maincontent.scss'
+  @import '../../common/style/maincontent.scss';
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>

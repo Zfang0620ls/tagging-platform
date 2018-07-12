@@ -1,5 +1,5 @@
 <template>
-  <div class="columnsplit" v-title="'列切分标注任务列表'">
+  <div class="fonttask" v-title="'字框切分标注任务列表'">
     <side-bar></side-bar>
     <div class="content-wrapper">
       <div class="main-content">
@@ -20,7 +20,7 @@
               <td>{{item.status}}</td>
               <td>{{item.priority}}</td>
               <td>{{item.update_date}}</td>
-              <td><span @click="goColumnsplit(item)">开始</span></td>
+              <td><span @click="goFontsplit(item)">开始</span></td>
             </tr>
             </tbody>
           </table>
@@ -46,7 +46,7 @@ export default {
   },
   methods:{
     getTasklist(){
-      this.axios.get('/columntask/').then((res) => {
+      this.axios.get('/chartask/').then((res) => {
         console.log(res);
         this.list = res.data.models;
         for(let i=0;i<this.list.length;i++){
@@ -67,10 +67,10 @@ export default {
       })
     },
     //跳转到列切分任务页
-    goColumnsplit(item){
+    goFontsplit(item){
       //缓存页的信息带过去
-      localStorage.setItem('columnsplitDetail',JSON.stringify(item));
-      this.$router.push('/columnsplit');
+      localStorage.setItem('fontsplitDetail',JSON.stringify(item));
+      this.$router.push('/fontsplit');
     },
   }
 }
