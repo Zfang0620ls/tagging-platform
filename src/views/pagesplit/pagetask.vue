@@ -48,7 +48,7 @@ export default {
     getTasklist(){
       this.axios.get('/pagetask/').then((res) => {
         console.log(res);
-        this.list = res.data.models;
+        this.list = res.data.models || [];
         for(let i=0;i<this.list.length;i++){
             if(this.list[i].status == 0){
                 this.list[i].status = '未领取'

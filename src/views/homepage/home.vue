@@ -57,7 +57,7 @@ export default {
     getWorkingData(){
       this.axios.get('/task_statistics').then((res) => {
         //console.log(res);
-        this.list = res.data.data;
+        this.list = res.data.data || [];
       })
     }
   }

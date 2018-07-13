@@ -3,7 +3,7 @@ import router from "./router/index";
 // axios 配置
 // axios.defaults.timeout = 10000;
 if (process.env.NODE_ENV==="production"){
-  //axios.defaults.baseURL = '';
+  axios.defaults.baseURL = 'http://54.223.95.136/api';
 }else{
   axios.defaults.baseURL = 'http://54.223.95.136/api';
 }
