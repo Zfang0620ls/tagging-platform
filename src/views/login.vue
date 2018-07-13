@@ -64,7 +64,7 @@ export default {
     var validatePass = (rule, value, cb) => {
       var pattern = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/;
       if (value === '') {
-        cb(new Error('请输入密码'));
+        cb(new Error('密码至少包含字母数字,6-20位'));
       }else if(!pattern.test(value)){
         cb(new Error('请输入6－20位字母数字混合密码'));
       }else {
@@ -113,16 +113,17 @@ export default {
     // 登陆
     handleSubmit(formname,email,pass){
       this.$refs[formname].validate((valid) => {
+        let loginParam = {
+          email:email,
+          password:pass
+        }
         if(valid){
           this.logining = true;
-          let loginParam = {
-              email:email,
-              password:pass
-          }
-          this.axios.post('',loginParam).then((res) => {
-              this.logining = false;
-              this.$router.push('/home')
-          })
+          this.$router.push('/home')
+//          this.axios.post('',loginParam).then((res) => {
+//              this.logining = false;
+//
+//          })
         }
       })
     }

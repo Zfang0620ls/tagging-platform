@@ -60,6 +60,7 @@
       updateCanvas(image, canvas, ctx, scale) {
         canvas.width = image.width * scale;
         canvas.height = image.height * scale;
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // canvas清屏
         ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, image.width * scale, image.height * scale);
         this.drawAllRect(ctx, scale);
       },

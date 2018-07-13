@@ -15,8 +15,8 @@
                   <el-form-item class="item" prop="pass" label="密码：">
                     <el-input type="password" v-model.trim="ruleForm.pass" placeholder="请输入密码" auto-complete="off" class="need"></el-input>
                   </el-form-item>
-                  <el-form-item class="item" prop="pass" label="确认：">
-                    <el-input type="password" v-model.trim="ruleForm.pass" placeholder="请确认密码" auto-complete="off" class="need"></el-input>
+                  <el-form-item class="item" prop="checkpass" label="确认：">
+                    <el-input type="password" v-model.trim="ruleForm.checkpass" placeholder="请确认密码" auto-complete="off" class="need"></el-input>
                   </el-form-item>
                   <p class="log">已有账号，<em @click="goLogin">立即登录</em></p>
                   <el-form-item class="sub-btn">
@@ -47,7 +47,7 @@ export default {
     var validatePass = (rule, value, cb) => {
       var pattern = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/;
       if (value === '') {
-        cb(new Error('请输入新密码'));
+        cb(new Error('密码至少包含字母数字,6-20位'));
       }else if(!pattern.test(value)){
         cb(new Error('请输入6－20位字母数字混合密码'));
       }else {
@@ -60,8 +60,8 @@ export default {
     //确认新密码
     var validateCheckpass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请再次输入新密码'));
-      } else if (value !== this.ruleForm.newpass) {
+        callback(new Error('请再次输入6－20位字母数字混合密码'));
+      } else if (value !== this.ruleForm.pass) {
         callback(new Error('两次输入密码不一致!'));
       } else {
         callback();
