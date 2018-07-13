@@ -1,1 +1,44 @@
-<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>藏经图文标注平台</title><link href=/static/css/app.5eb0db21534d0da71059cdc3155697fa.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript src=/static/js/manifest.cf19845de32721db3f8d.js></script><script type=text/javascript src=/static/js/vendor.eda6a98db5007fd1b164.js></script><script type=text/javascript src=/static/js/app.9f61e9ca9109daa274f9.js></script></body></html>
+<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>藏经图文标注平台</title><link href=/static/css/app.6d779871bdbb2818b942e2b3a903e1ac.css rel=stylesheet></head><style>#appLoading {
+      top:50%;
+      left:50%;
+      position: absolute;
+      -webkit-transform: translateY(-50%)  translateX(-50%);
+      transform: translateY(-50%)  translateX(-50%);
+      z-index:100;
+    }
+    @-webkit-keyframes ball-beat {
+      50% {
+        opacity: 0.2;
+        -webkit-transform: scale(0.75);
+        transform: scale(0.75); }
+
+      100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1); } }
+
+    @keyframes ball-beat {
+      50% {
+        opacity: 0.2;
+        -webkit-transform: scale(0.75);
+        transform: scale(0.75); }
+
+      100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1); } }
+
+    .ball-beat > div {
+      background-color: #f7aa32;
+      width: 15px;
+      height: 15px;
+      border-radius: 100% !important;
+      margin: 2px;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+      display: inline-block;
+      -webkit-animation: ball-beat 0.7s 0s infinite linear;
+      animation: ball-beat 0.7s 0s infinite linear; }
+    .ball-beat > div:nth-child(2n-1) {
+      -webkit-animation-delay: 0.35s !important;
+      animation-delay: 0.35s !important; }</style><body><div id=appLoading><div class="loader-inner ball-beat"><div></div><div></div><div></div></div></div><div id=app></div><script type=text/javascript src=/static/js/manifest.a179be85d5fca9d0dafa.js></script><script type=text/javascript src=/static/js/vendor.eda6a98db5007fd1b164.js></script><script type=text/javascript src=/static/js/app.5c09f63b53f281bf4f3e.js></script></body></html>
