@@ -2,7 +2,7 @@
   <div class="login" v-title="'登录'">
       <div class="login-container w">
           <div class="top-panel"></div>
-          <div :style="bgdiv" class="center-panel clearfix">
+          <div class="center-panel clearfix">
               <div class="left-tip fl">
                 <p><img src="../assets/tit.png" alt=""></p>
               </div>
@@ -36,7 +36,7 @@
                     </el-form-item>
                     <p class="register">没有账号，<em @click="goRegister">立即注册</em></p>
                     <el-form-item class="sub-btn">
-                      <el-button type="big" class="log-btn" @click="handleSubmit('ruleFormAdmin',ruleFormAdmin.email,ruleFormAdmin.pass)">登录</el-button>
+                      <el-button type="big" class="log-btn" :loading="logining" @click="handleSubmit('ruleFormAdmin',ruleFormAdmin.email,ruleFormAdmin.pass)">登录</el-button>
                     </el-form-item>
                   </el-form>
                 </div>
@@ -78,10 +78,6 @@ export default {
       ],
       nowIndex:0,
       logining:false,
-      // 背景图
-      bgdiv: {
-           backgroundImage: 'url(' + require('assets/login-bg.jpg') + ')'
-       },
       labelPosition: 'right',
        rules:{
          email: [
@@ -158,7 +154,7 @@ export default {
   .center-panel {
     height: 650px;
     position: relative;
-    background: no-repeat center center;
+    background:#fff url('../assets/login-bg.jpg') no-repeat center center;
     background-size: cover;
     border-radius: 0 0 30px 30px;
     // 左侧文字

@@ -6,7 +6,14 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created() {
+    try {
+      document.body.removeChild(document.getElementById('appLoading'))
+    } catch (e) {
+
+    }
+  }
 }
 </script>
 

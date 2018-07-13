@@ -2,7 +2,7 @@
   <div class="register" v-title="'注册'">
      <div class="register-container w">
           <div class="top-panel"></div>
-          <div :style="bgdiv" class="center-panel clearfix">
+          <div class="center-panel clearfix">
               <div class="left-tip fl">
                 <p><img src="../assets/tit.png" alt=""></p>
               </div>
@@ -68,10 +68,6 @@ export default {
       }
     };
     return {
-      // 背景图
-      bgdiv: {
-           backgroundImage: 'url(' + require('assets/login-bg.jpg') + ')'
-      },
       labelPosition: 'right',
       rules:{
         email: [
@@ -136,7 +132,7 @@ export default {
   .center-panel {
     height: 650px;
     position: relative;
-    background: no-repeat center center;
+    background:#fff url('../assets/login-bg.jpg') no-repeat center center;
     background-size: cover;
     border-radius: 0 0 30px 30px;
     .left-tip {
