@@ -73,29 +73,35 @@ export default {
     display:inline-block;
   }
   li:first-child {
-    border: 1px solid #ccc;
+    border: 1px solid #e6e6e6;
     text-align: center;
-    width: 180px;
-    background-color: #D89020;
-    color: white;
-    border-color: #D89020;
+    width: 145px;
+    background-color: #fff;
+    color: #429BF0;
     height: 35px;
     line-height: 35px;
     margin-right: 15px;
     a{
-      color:#fff;
+      color:#429BF0;
+      font-size:14px;
+    }
+    &:hover{
+      border-color:#429BF0;
     }
   }
   li:last-child{
-    border: 1px solid #ccc;
+    border: 1px solid #e6e6e6;
     text-align: center;
-    color: #5C9ACF;
-    border-color: #cdcdcd;
-    width: 180px;
+    color: #429BF0;
+    width: 145px;
     height: 35px;
     line-height: 35px;
     a{
       color:#429BF0;
+      font-size:14px;
+    }
+    &:hover{
+      border-color:#429BF0;
     }
   }
   .content{
@@ -155,7 +161,7 @@ export default {
     }
     p{
       line-height: 26px;
-      color: #626262;
+      color: #f1bd6e;
       font-size:14px;
       font-weight:bold;
       padding-left:43px;

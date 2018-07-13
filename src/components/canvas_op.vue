@@ -99,7 +99,7 @@
             if (rect.deleted) {
               ctx.fillStyle = '#f40';
             }
-            ctx.lineWidth=1*scale;
+            ctx.lineWidth=2*scale;
           }
           ctx.strokeRect(rect.x*scale, rect.y*scale, rect.w*scale, rect.h*scale);
           ctx.fillRect(rect.x*scale, rect.y*scale, rect.w*scale, rect.h*scale);
@@ -150,7 +150,7 @@
               posHandle.y = rect.y + rect.h / 2;
               break;
           }
-          ctx.fillStyle = "#FF0000";
+//          ctx.fillStyle = "#FF0000";
           ctx.beginPath();
           ctx.arc(posHandle.x * scale, posHandle.y * scale, 3, 0, 2 * Math.PI);
           ctx.fill();

@@ -75,7 +75,6 @@ export default {
             .sidebar-menu{
               border-left:1px solid #ccc;
               li{
-                padding:0 10px;
                 height:36px;
                 line-height:36px;
                 text-align: center;
@@ -83,11 +82,17 @@ export default {
                 border-left:0 none;
                 margin-bottom:10px;
                 font-size:14px;
+                a{
+                  display: block;
+                  font-weight:bold;
+                  color:#333;
+                }
                 &.active{
                   background-color: #D89020;
                   border-color: #D89020;
                   a{
                     color: #fff;
+                    display: block;
                   }
                 }
                 &.router-link-active{
