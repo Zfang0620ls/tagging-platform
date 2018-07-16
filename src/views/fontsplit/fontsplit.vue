@@ -206,15 +206,17 @@ export default {
   }
   .container{
     position: relative;
+    text-align:center;
     .left{
       /*width: 73%;*/
       width:100%;
-      height:500px;
-      border:1px solid #e6e6e6;
+      height:850px;
+      border:1px solid #ddd;
       box-sizing:border-box;
       /*margin-right: 2%;*/
       position: relative;
       overflow:auto;
+      background:#e6e6e6;
       .nodata{
         position: absolute;
         left:50%;
@@ -258,5 +260,12 @@ export default {
     color:#fff;
     margin-top:20px;
     cursor:pointer;
+  }
+  @media screen and (max-width: 1440px){
+    .container{
+      .left{
+        height:600px;
+      }
+    }
   }
 </style>
