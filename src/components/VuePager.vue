@@ -11,9 +11,9 @@
     </div>
     <div v-if="showJump" v-show="totalPage > 1" class="pager-jump">
       <span>共<em class="jump-total">{{totalPage}}</em>页，&nbsp;跳转到第</span>
-       <input type="number" autocomplete="off" min="1" :max="totalPage" v-model="jumpPage" class="jump-input" @keyup.enter="go(jumpPage)" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"> 
+       <input type="number" autocomplete="off" min="1" :max="totalPage" v-model="jumpPage" class="jump-input" @keyup.enter="go(jumpPage)" onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
       <span>页</span>
-      <a class="go" @click="go(jumpPage)">GO</a>
+      <span class="go" @click="go(jumpPage)">确定</span>
     </div>
   </div>
 </template>
@@ -159,12 +159,12 @@
     display: inline-block;
     min-width: 32px;
     height: 32px;
-    padding: 0 1px;
-    margin: 0 2px;
+    margin: 0 3px;
     font-size: 14px;
     line-height: 32px;
     text-align: center;
     color: #222;
+    border-radius:100%;
   }
   .pager-wrapper a {
     border: 1px solid #dcdcdc;
@@ -174,28 +174,30 @@
     cursor: pointer;
   }
   .pager-wrapper a:hover {
-    border: 1px solid #5B9BD1;
-    color: #5B9BD1;
+    border: 1px solid #D89020;
+    color: #D89020;
     text-decoration: none;
   }
   .pager-wrapper .active {
     color: #fff;
     cursor: default;
-    background-color: #5B9BD1;
-    border-color: #5B9BD1;
+    background-color: #D89020;
+    border-color: #D89020;
   }
   .pager-wrapper .go{
+    display:inline-block;
     background-color: #fff;
-    color: #5B9BD1;
-    border: 1px solid #5B9BD1;
+    color: #333;
+    border: 1px solid #dcdcdc;
     cursor: pointer;
-    padding:0 2px;
+    padding:0 20px;
     height:30px;
     line-height:30px;
+    border-radius:16px;
   }
   .pager-wrapper .go:hover{
-    color: #5B9BD1;
-    border: 1px solid #5B9BD1;
+    color: #D89020;
+    border: 1px solid #D89020;
   }
   .pager-wrapper .active:hover {
     color: #fff;
@@ -204,6 +206,7 @@
     display: inline-block;
     height: 34px;
     margin-left: 10px;
+    font-size:13px;
   }
   .pager-jump span {
     line-height: 34px;
@@ -215,15 +218,16 @@
   }
   .pager-jump .jump-input {
     width: 40px;
-    height: 32px;
+    height: 30px;
     padding:0 5px;
     outline: none;
     border: 1px solid #dcdcdc;
     font-size: 14px;
     vertical-align: top;
     text-align: center;
-    font-weight:bold;
-    color: #5B9BD1;
+    /*font-weight:bold;*/
+    border-radius:5px;
+    color: #333;
   }
   .pager-jump .jump-input:focus {
     border-color:#4AA6FF;

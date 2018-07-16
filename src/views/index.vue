@@ -33,7 +33,7 @@
             <el-form-item label="确认密码 :" prop="checkpass" :label-width="formLabelWidth" >
             <el-input v-model="form.checkpass" type="password" auto-complete="off" value=""></el-input>
             </el-form-item>
-            
+
             </el-form>
             <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -42,7 +42,7 @@
         </el-dialog>
 
          <!-- 退出对话框登录 -->
-         <el-dialog title="提示" :visible.sync="singdialog" width="30%"> 
+         <el-dialog title="提示" :visible.sync="singdialog" width="30%">
            <p>您还没有完成标注任务提交,请完成标<br>
              注任务提交后再退出,或者将未完成的<br>
              文件保存至本地,否则您之前完成的标<br>
@@ -54,8 +54,8 @@
            </span>
 
          </el-dialog>
-        
-        
+
+
         <div class="container clearfix">
             <!--组件渲染-->
             <router-view></router-view>
@@ -64,15 +64,16 @@
       </div>
     </div>
   </div>
-  
+
 </template>
 
 <script>
+import util from "@/libs/util";
 export default {
   data () {
 
     var validatePass = (rule, value, callback) => {
-   
+
       if (value === "") {
           callback(new Error("请输入原密码"));
       } else {
@@ -97,7 +98,7 @@ export default {
         callback(new Error("请再次输入新密码"));
       } else if (value !== this.form.newpass) {
         callback(new Error("两次输入密码不一致!"));
-      
+
       } else {
         callback();
       }
@@ -112,7 +113,7 @@ export default {
     pass: [{ validator: validatePass, trigger: "blur" }],
     newpass: [{ validator: validateNewPass, trigger: "blur" }],
     checkpass: [{ validator: validatePass2, trigger: "blur" }],
-     
+
    },
   dialogTableVisible: false,
   dialogFormVisible: false,
@@ -123,7 +124,7 @@ export default {
     }
   },
   mounted(){
-
+    util.toTop();
   },
   methods:{
      linkTo(path){
@@ -143,9 +144,9 @@ export default {
            }
         }
         )
-       
+
       },
-      
+
   }
 }
 </script>
@@ -158,7 +159,7 @@ export default {
   .index-in{
     .page-wrapper{
       position:relative;
-      margin-top:50px;
+      /*margin-top:50px;*/
       margin-bottom: 50px;
       min-height:550px;
       .header{
@@ -166,7 +167,7 @@ export default {
         line-height:50px;
         background-color: #D89020;
         padding:0 10px;
-        border-radius:30px 30px 0 0;
+        /*border-radius:30px 30px 0 0;*/
         .left{
           span{
             color: #fff;
@@ -200,7 +201,7 @@ export default {
         padding-top:20px;
         min-height:600px;
         background-color: #fff;
-        border-radius:0 0 30px 30px;
+        /*border-radius:0 0 30px 30px;*/
       }
     }
   }

@@ -48,6 +48,9 @@ let util = {
     let red = ['#E43B46', '#DF3B49', '#E63A4A', '#EB3845'][~~(random*4)];
     let alpha = 128 + ~~(random*128); // 200 + [0-55]
     return red + alpha.toString(16);
+  },
+  toTop(){
+    $('body,html').animate({scrollTop:0},10);
   }
 };
 

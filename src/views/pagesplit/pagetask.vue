@@ -24,6 +24,16 @@
             </tr>
             </tbody>
           </table>
+          <!--分页组件-->
+          <div class="page-list">
+            <pager
+              mode="event"
+              :total-page="totalpage"
+              :init-page="curpage"
+              @go-page="goNextPage">
+            </pager>
+          </div>
+          <!--./分页组件-->
         </div>
       </div>
     </div>
@@ -32,13 +42,17 @@
 
 <script>
 import SideBar from '../../components/SideBar'; //侧边栏
+import Pager from '../../components/VuePager';
 export default {
   components:{
     SideBar,
+    Pager
    },
   data () {
     return {
-      list:[]
+      list:[],
+      curpage:1,
+      totalpage:0,
     }
   },
   mounted(){
@@ -46,9 +60,12 @@ export default {
   },
   methods:{
     getTasklist(){
-      this.axios.get('/pagetask/').then((res) => {
-        console.log(res);
+      this.axios.get('/pagetask/?page='+this.curpage).then((res) => {
+        //console.log(res);
         this.list = res.data.models || [];
+        if(res.data.pagination){
+          this.totalpage = res.data.pagination.total_pages;
+        }
         for(let i=0;i<this.list.length;i++){
             if(this.list[i].status == 0){
                 this.list[i].status = '未领取'
@@ -64,11 +81,18 @@ export default {
               this.list[i].status = '已作废'
             }
         }
+
       })
     },
     goPagesplit(item){
       localStorage.setItem('pagesplitDetail',JSON.stringify(item));
       this.$router.push('/pagesplit');
+    },
+    //分页跳转
+    goNextPage(data){
+//      console.log(data.page);
+      this.curpage = data.page;
+      this.getTasklist();
     },
   }
 }

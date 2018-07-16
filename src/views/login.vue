@@ -1,6 +1,6 @@
 <template>
   <div class="login" v-title="'登录'">
-      <div class="login-container w">
+      <div class="login-container width">
           <div class="top-panel"></div>
           <div class="center-panel clearfix">
               <div class="left-tip fl">
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import util from "@/libs/util";
 export default {
   data() {
     //邮箱前台验证
@@ -98,6 +99,9 @@ export default {
        }
     };
   },
+  mounted(){
+    util.toTop();
+  },
   methods: {
     changeIndex(index){
       this.nowIndex = index;
@@ -142,6 +146,11 @@ export default {
 //清除抖动
 .login {
   overflow: hidden;
+  background:#e0e0e0 url(../assets/bg.jpg) no-repeat;
+  background-size:cover;
+  min-height:100%;
+  position: absolute;
+  width:100%;
 }
 .login-container {
   margin: 50px auto;

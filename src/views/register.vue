@@ -1,6 +1,6 @@
 <template>
   <div class="register" v-title="'注册'">
-     <div class="register-container w">
+     <div class="register-container width">
           <div class="top-panel"></div>
           <div class="center-panel clearfix">
               <div class="left-tip fl">
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import util from "@/libs/util";
 export default {
   data() {
     //邮箱前台验证
@@ -88,6 +89,9 @@ export default {
       }
     };
   },
+  mounted(){
+    util.toTop();
+  },
   methods: {
     //跳转到登录
     goLogin(){
@@ -120,6 +124,11 @@ export default {
 <style lang="scss" scoped>
 .register {
   overflow: hidden;
+  background:#e0e0e0 url(../assets/bg.jpg) no-repeat;
+  background-size:cover;
+  min-height:100%;
+  position: absolute;
+  width:100%;
 }
 .register-container {
   margin: 50px auto;

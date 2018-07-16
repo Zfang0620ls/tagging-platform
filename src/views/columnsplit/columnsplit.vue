@@ -213,7 +213,7 @@ export default {
   		height:500px;
   		border:1px solid #e6e6e6;
   		box-sizing:border-box;
-  		margin-right: 2%;
+  		/*margin-right: 2%;*/
   		position: relative;
   		overflow:auto;
   		.nodata{
