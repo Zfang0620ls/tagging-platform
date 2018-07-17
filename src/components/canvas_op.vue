@@ -29,24 +29,6 @@
       bus.$on('keyEvent', this.handleKeyEvent);
     },
     methods: {
-      setInitCanvasImage(){
-        let canvas = document.getElementById('canvas-scope');
-        canvas.width = 300;
-        canvas.height = window.innerHeight;
-        let ctx = canvas.getContext('2d');
-        let gradient = ctx.createLinearGradient(0, 0, 0, window.innerHeight);
-        gradient.addColorStop(0, '#606E9A');
-        gradient.addColorStop(1, '#386093');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0,0, 300, window.innerHeight);
-        ctx.strokeStyle='white';
-        ctx.font="30px Arial";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.strokeText("Operate Area", 0, 0);
-        ctx.save();
-      },
       redraw_canvas() {
         let canvas = document.getElementById('canvas-scope');
         let ctx = canvas.getContext('2d');
@@ -150,7 +132,7 @@
               posHandle.y = rect.y + rect.h / 2;
               break;
           }
-//          ctx.fillStyle = "#FF0000";
+          ctx.fillStyle = "#FF0000";
           ctx.beginPath();
           ctx.arc(posHandle.x * scale, posHandle.y * scale, 3, 0, 2 * Math.PI);
           ctx.fill();
