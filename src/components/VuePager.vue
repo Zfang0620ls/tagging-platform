@@ -181,8 +181,8 @@
   .pager-wrapper .active {
     color: #fff;
     cursor: default;
-    background-color: #D89020;
-    border-color: #D89020;
+    background-color: #e6a23c;
+    border-color: #e6a23c;
   }
   .pager-wrapper .go{
     display:inline-block;
@@ -196,8 +196,8 @@
     border-radius:16px;
   }
   .pager-wrapper .go:hover{
-    color: #D89020;
-    border: 1px solid #D89020;
+    color: #e6a23c;
+    border: 1px solid #e6a23c;
   }
   .pager-wrapper .active:hover {
     color: #fff;

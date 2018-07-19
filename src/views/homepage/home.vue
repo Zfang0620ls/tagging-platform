@@ -3,13 +3,11 @@
     <side-bar></side-bar>
     <div class="content-wrapper">
       <div class="main-content">
-        <div class="tabs">
-        <ul class="tabs-menu">
-          <li><a href="javascript:;">下载标注说明文档</a></li>
-           <li><router-link to="/video" class="wa">查看往期培训视频</router-link></li>
-        </ul>
-      </div>
-      <div class="content">
+        <div class="btns">
+          <span :class="{active:activeName === '下载标注说明文档'}" @click="download('下载标注说明文档')">下载标注说明文档</span>
+          <span :class="{active:activeName === '查看往期培训视频'}" @click="goVideo('查看往期培训视频')">查看往期培训视频</span>
+        </div>
+        <div class="content">
         <div class="tip">
           <p>感恩随喜各位师兄用功功德!</p>
           <p>您的每一次时心、细心的标注都是在为大藏经编修事业添砖加瓦!</p>
@@ -47,6 +45,7 @@ export default {
   },
   data () {
     return {
+      activeName: '',
       list: []
     }
   },
@@ -54,6 +53,14 @@ export default {
     this.getWorkingData();
   },
   methods:{
+    download(curname){
+      this.activeName = curname;
+      location.href = 'http://pan.bidata.com.cn/f/728a2b88e8ff4342a1de/?dl=1';
+    },
+    goVideo(curname){
+      this.activeName = curname;
+      this.$router.push('/video');
+    },
     getWorkingData(){
       this.axios.get('/task_statistics').then((res) => {
         //console.log(res);
@@ -65,7 +72,9 @@ export default {
 }
 </script>
 <style lang="scss">
-  @import '../../common/style/maincontent.scss'
+  @import '../../common/style/maincontent.scss';
+  @import '../../common/style/common.scss';
+  @import '../../common/style/table.scss';
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
@@ -106,43 +115,6 @@ export default {
   }
   .content{
     margin-top: 20px;
-    .tasklist{
-      table{
-        border-collapse: collapse;
-        margin: 0 auto;
-        width: 100%;
-        thead{
-          th{
-            background-color: #f3f7fa;
-            border: 1px solid #e6e6e6;
-            text-align:center;
-            font-size:14px;
-            line-height: 40px;
-            font-weight:bold;
-            color: #5e7386;
-          }
-        }
-        tbody{
-          td{
-            border: 1px solid #e6e6e6;
-            color: #666;
-            height: 30px;
-            text-align:center;
-            font-size:12px;
-            padding:5px 3px;
-            span{
-              cursor:pointer;
-              color: #429BF0;
-              &:first-child{
-                margin-right: 10px;
-                color:#3bd2a2;
-              }
-            }
-          }
-        }
-
-      }
-    }
   }
   .tip {
     margin-bottom:20px;
@@ -161,9 +133,8 @@ export default {
     }
     p{
       line-height: 26px;
-      color: #f1bd6e;
+      color: #c3bbad;
       font-size:14px;
-      font-weight:bold;
       padding-left:43px;
     }
   }

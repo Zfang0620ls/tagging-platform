@@ -5,6 +5,12 @@
         <div class="header clearfix">
           <div class="left fl"><img src="../assets/title.png" height="48" width="540" alt="">&nbsp;<span>欢迎您登录藏经图文标注管理平台！</span></div>
           <div class="right fr">
+            <!-- 全屏显示 -->
+            <div class="btn-fullscreen" @click="handleFullScreen">
+              <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
+                <i class="el-icon-rank"></i>
+              </el-tooltip>
+            </div>
             <el-dropdown :hide-on-click="false" trigger="click">
               <span class="el-dropdown-link">
                 <img class="user" src="../assets/user.png" alt="">
@@ -22,25 +28,23 @@
           </div>
         </div>
         <!-- dialog 修改密码弹窗 -->
-         <el-dialog title="修改密码 :" :visible.sync="dialogFormVisible" width="30%" >
-            <el-form :model="form" :rules="rules" ref="form"  >
-            <el-form-item label="原密码 :" prop="pass" :label-width="formLabelWidth">
-            <el-input v-model="form.pass" type="password" auto-complete="off" value="" ></el-input>
+         <el-dialog title="修改密码" :visible.sync="dialogFormVisible" width="30%" class="changePass">
+            <el-form :model="form" :rules="rules" ref="form">
+            <el-form-item label="原密码：" prop="pass" :label-width="formLabelWidth">
+            <el-input v-model="form.pass" type="password" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item label="新密码 :" prop="newpass" :label-width="formLabelWidth">
-            <el-input v-model="form.newpass" type="password" auto-complete="off" value=""></el-input>
+            <el-form-item label="新密码：" prop="newpass" :label-width="formLabelWidth">
+            <el-input v-model="form.newpass" type="password" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item label="确认密码 :" prop="checkpass" :label-width="formLabelWidth" >
-            <el-input v-model="form.checkpass" type="password" auto-complete="off" value=""></el-input>
+            <el-form-item label="确认密码：" prop="checkpass" :label-width="formLabelWidth" >
+            <el-input v-model="form.checkpass" type="password" auto-complete="off"></el-input>
             </el-form-item>
-
             </el-form>
             <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click.native="updatePwd('form');">确 定</el-button>
+            <el-button type="warning" plain @click="dialogFormVisible = false">取消</el-button>
+            <el-button type="warning" @click.native="updatePwd('form');">确定</el-button>
             </div>
         </el-dialog>
-
          <!-- 退出对话框登录 -->
          <el-dialog title="提示" :visible.sync="singdialog" width="30%">
            <p>您还没有完成标注任务提交,请完成标<br>
@@ -49,13 +53,10 @@
              注内客将不会被系统记录保存
            </p>
            <span slot="footer" class="dialog-footer">
-           <el-button @click="singdialog = false">取 消</el-button>
-           <el-button type="primary" @click="singdialog = false">确 定退出</el-button>
+           <el-button type="warning" plain @click="singdialog = false">取消</el-button>
+           <el-button type="warning" @click="singdialog = false">确定</el-button>
            </span>
-
          </el-dialog>
-
-
         <div class="container clearfix">
             <!--组件渲染-->
             <router-view></router-view>
@@ -63,6 +64,7 @@
         </div>
       </div>
     </div>
+    <div class="ft"></div>
   </div>
 
 </template>
@@ -73,136 +75,189 @@ export default {
   data () {
 
     var validatePass = (rule, value, callback) => {
-
       if (value === "") {
           callback(new Error("请输入原密码"));
       } else {
-        //   if (this.form.pass !== "") {
-        //      this.$refs.ruleForm.validateField("newpass");
-        //  }
            callback();
       }
     };
     var validateNewPass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入新密码"));
-      } else {
-        // if (this.form.newpass !== "") {
-        //   this.$refs.ruleForm.validateField("checkPass");
-        // }
-         callback();
+      var pattern = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/;
+      if (value === '') {
+        cb(new Error('密码至少包含字母数字,6-20位'));
+      }else if(!pattern.test(value)){
+        cb(new Error('请输入6－20位字母数字混合密码'));
+      }else {
+        if (this.ruleForm.checkpass !== '') {
+          this.$refs.ruleForm.validateField('checkpass');
+        }
+        cb();
       }
     };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入新密码"));
-      } else if (value !== this.form.newpass) {
-        callback(new Error("两次输入密码不一致!"));
-
+    //确认新密码
+    var validateCheckpass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入6－20位字母数字混合密码'));
+      } else if (value !== this.ruleForm.pass) {
+        callback(new Error('两次输入密码不一致!'));
       } else {
         callback();
       }
     };
     return {
+      fullscreen: false,
       form: {
        pass: "",
        newpass: "",
        checkpass: ""
      },
-   rules: {
-    pass: [{ validator: validatePass, trigger: "blur" }],
-    newpass: [{ validator: validateNewPass, trigger: "blur" }],
-    checkpass: [{ validator: validatePass2, trigger: "blur" }],
-
-   },
-  dialogTableVisible: false,
-  dialogFormVisible: false,
-  formLabelWidth: "80px",
-  centerDialogVisible: false,
-  singdialog:false ,
-  msg: ""
+     rules: {
+        pass: [{required:true, validator: validatePass, trigger: "blur" }],
+        newpass: [{required:true, validator: validateNewPass, trigger: "blur" }],
+        checkpass: [{required:true, validator: validateCheckpass, trigger: "blur" }],
+       },
+      dialogFormVisible: false,
+      formLabelWidth: "85px",
+      singdialog:false ,
     }
   },
   mounted(){
     util.toTop();
   },
   methods:{
-     linkTo(path){
-       var route_link = this.$route.path;
-       if(path === route_link){
-         return true
-       }
-     },
-     // 请求：修改密码
-      updatePwd (from)  {
-        this.$refs.form.validate((valid) => {
+    //修改密码
+    updatePwd (formName)  {
+      this.$refs[formName].validate((valid) => {
            if(valid){
-             alert("修改成功")
-           this.dialogFormVisible=false;
+              this.$message({
+                message:'提交成功',
+                type:'success'
+              })
+              this.dialogFormVisible=false;
            }else{
-             alert("信息不正确");
+             this.$message({
+               message:'提交失败',
+               type:'error'
+             })
+             return false;
            }
         }
-        )
+      )
+    },
+    // 全屏事件
+    handleFullScreen(){
+      let element = document.documentElement;
+      if (this.fullscreen) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitCancelFullScreen) {
+          document.webkitCancelFullScreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      } else {
+        if (element.requestFullscreen) {
+          element.requestFullscreen();
+        } else if (element.webkitRequestFullScreen) {
+          element.webkitRequestFullScreen();
+        } else if (element.mozRequestFullScreen) {
+          element.mozRequestFullScreen();
+        } else if (element.msRequestFullscreen) {
+          // IE11
+          element.msRequestFullscreen();
+        }
+      }
+      this.fullscreen = !this.fullscreen;
+    },
+    //退出登录
+    logout(){
 
-      },
+    }
 
   }
 }
 </script>
+<style lang="scss">
+  .changePass{
+    .el-form-item__label{
+      padding-right:5px;
+    }
+  }
+</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 // 解决 dialog 抖动
    .index {
      overflow: hidden;
+     .index-in{
+       .page-wrapper{
+         position:relative;
+         min-height:550px;
+         .header{
+           height:50px;
+           line-height:50px;
+           background-color: #e6a23c;
+           padding:0 10px;
+           .left{
+             span{
+               color: #fff;
+               font-size:14px;
+             }
+             em{
+               color: #fff;
+               font-size:14px;
+             }
+             img{
+               width: 260px;
+               height:23px;
+               margin-top: 13px;
+             }
+           }
+           .right{
+             .btn-fullscreen{
+               position: relative;
+               top:3px;
+               width: 30px;
+               height: 30px;
+               text-align: center;
+               border-radius: 15px;
+               cursor: pointer;
+               display:inline-block;
+               transform: rotate(45deg);
+               margin-right: 5px;
+               font-size: 24px;
+               color:#fff;
+               vertical-align:top;
+             }
+             .el-dropdown{
+               .el-dropdown-link{
+                 cursor: pointer;
+                 color:#fff;
+                 vertical-align:top;
+               }
+             }
+             .user{
+               width: 24px;
+               height:24px;
+               margin-top: 14px;
+             }
+           }
+         }
+         .container{
+           padding-top:20px;
+           min-height:600px;
+           background-color: #fff;
+           /*border-radius:0 0 30px 30px;*/
+         }
+       }
+     }
+     .ft{
+       width:100%;
+       height:180px;
+       background:url(../assets/ft.png) no-repeat center center;
+     }
    }
-  .index-in{
-    .page-wrapper{
-      position:relative;
-      /*margin-top:50px;*/
-      margin-bottom: 50px;
-      min-height:550px;
-      .header{
-        height:50px;
-        line-height:50px;
-        background-color: #D89020;
-        padding:0 10px;
-        /*border-radius:30px 30px 0 0;*/
-        .left{
-          span{
-            color: #fff;
-            font-size:14px;
-          }
-          em{
-            color: #fff;
-            font-size:14px;
-          }
-          img{
-            width: 260px;
-            height:23px;
-            margin-top: 13px;
-          }
-        }
-        .right{
-          .el-dropdown{
-            .el-dropdown-link{
-              cursor: pointer;
-              color:#fff;
-            }
-          }
-          .user{
-            width: 24px;
-            height:24px;
-            margin-top: 14px;
-          }
-        }
-      }
-      .container{
-        padding-top:20px;
-        min-height:600px;
-        background-color: #fff;
-        /*border-radius:0 0 30px 30px;*/
-      }
-    }
-  }
+
 </style>

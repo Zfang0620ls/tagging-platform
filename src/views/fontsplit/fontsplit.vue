@@ -158,113 +158,86 @@ export default {
       text-align: center;
     }
   }
-  @import '../../common/style/maincontent.scss'
+  @import '../../common/style/maincontent.scss';
+  @import '../../common/style/common.scss';
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-  .btns{
-  margin-bottom:20px;
-    span{
-      display:inline-block;
-      width:120px;
-      height:35px;
+  .fontsplit{
+    .examdialog{
       text-align: center;
-      line-height:35px;
-      font-size:14px;
-      border:1px solid #e6e6e6;
-      color: #429bf0;
-      margin-right:15px;
-      cursor: pointer;
-      &.active{
-        background-color: #D89020;
-        color:#fff;
-      }
-  }
-  }
-  .examdialog{
-    text-align: center;
-    img{
-      width:70%;
-    }
-  }
-  .introdialog{
-    .el-dialog__header{
-      text-align: center;
-    }
-    .text{
-      p{
-        line-height:32px;
-        em{
-          color:#f40;
-        }
-        &.red{
-          font-weight:bold;
-          color:#f40;
-        }
+      img{
+        width:70%;
       }
     }
-  }
-  .container{
-    position: relative;
-    text-align:center;
-    .left{
-      /*width: 73%;*/
-      width:100%;
-      height:850px;
-      border:1px solid #ddd;
-      box-sizing:border-box;
-      /*margin-right: 2%;*/
-      position: relative;
-      overflow:auto;
-      background:#e6e6e6;
-      .nodata{
-        position: absolute;
-        left:50%;
-        top:50%;
-        transform: translate(-50%,-50%);
-        font-size:14px;
+    .introdialog{
+      .el-dialog__header{
+        text-align: center;
+      }
+      .text{
         p{
-          text-align: center;
+          line-height:32px;
           em{
             color:#f40;
           }
-          &:first-child{
-            margin-bottom:5px;
+          &.red{
+            font-weight:bold;
+            color:#f40;
           }
         }
       }
     }
-    .right{
-      width: 25%;
-      min-height:500px;
-      border:1px solid #e6e6e6;
-      box-sizing:border-box;
+    .container{
       position: relative;
-      overflow-x:auto;
-      .nodata{
-      position: absolute;
-        left:50%;
-        top:50%;
-        transform: translate(-50%,-50%);
-        font-size:14px;
+      text-align:center;
+      .left{
+        /*width: 73%;*/
+        width:100%;
+        height:850px;
+        border:1px solid #ddd;
+        box-sizing:border-box;
+        /*margin-right: 2%;*/
+        position: relative;
+        overflow:auto;
+        background:#e6e6e6;
+        .nodata{
+          position: absolute;
+          left:50%;
+          top:50%;
+          transform: translate(-50%,-50%);
+          font-size:14px;
+          p{
+            text-align: center;
+            em{
+              color:#f40;
+            }
+            &:first-child{
+              margin-bottom:5px;
+            }
+          }
+        }
+      }
+      .right{
+        width: 25%;
+        min-height:500px;
+        border:1px solid #e6e6e6;
+        box-sizing:border-box;
+        position: relative;
+        overflow-x:auto;
+        .nodata{
+          position: absolute;
+          left:50%;
+          top:50%;
+          transform: translate(-50%,-50%);
+          font-size:14px;
+        }
       }
     }
-  }
-  .submit{
-    display:inline-block;
-    width:100px;
-    height:34px;
-    text-align: center;
-    line-height:34px;
-    background-color: #D89020;
-    color:#fff;
-    margin-top:20px;
-    cursor:pointer;
-  }
-  @media screen and (max-width: 1440px){
-    .container{
-      .left{
-        height:600px;
+    @media screen and (max-width: 1440px){
+      .container{
+        .left{
+          height:600px;
+        }
       }
     }
   }

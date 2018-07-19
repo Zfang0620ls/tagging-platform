@@ -1,5 +1,4 @@
 <template>
-  <div class="sidebar">
     <div class="sidebar-wrapper">
             <div class="sidebar">
               <ul class="sidebar-menu">
@@ -33,7 +32,6 @@
               </ul>
             </div>
           </div>
-  </div>
 </template>
 
 <script>
@@ -67,8 +65,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 	.sidebar-wrapper{
+          width:122px;
           .sidebar{
-            width: 150px;
+            width: 120px;
             float: left;
             position: relative;
             margin-right: -100%;
@@ -78,26 +77,29 @@ export default {
                 height:36px;
                 line-height:36px;
                 text-align: center;
-                border:1px solid #ccc;
+                border:1px solid #fde6c4;
+                background:#fdf6ec;
                 border-left:0 none;
                 margin-bottom:10px;
                 font-size:14px;
+                border-top-right-radius:30px;
+                border-bottom-right-radius:30px;
                 a{
                   display: block;
-                  font-weight:bold;
-                  color:#333;
+                  color:#f0c78a;
                 }
                 &.active{
-                  background-color: #D89020;
-                  border-color: #D89020;
+                  background-color: #e6a23c;
+                  border-color: #e6a23c;
+                  font-weight:bold;
                   a{
                     color: #fff;
                     display: block;
                   }
                 }
                 &.router-link-active{
-                  background-color: #D89020;
-                  border-color: #D89020;
+                  background-color: #e6a23c;
+                  border-color: #e6a23c;
                   color: #fff;
                   a{
                     color: #fff;

@@ -147,91 +147,65 @@ export default {
     }
   }
   @import '../../common/style/maincontent.scss';
+  @import '../../common/style/common.scss';
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-  .btns{
-    span{
-      display:inline-block;
-      width:120px;
-      height:35px;
+  .pagesplit{
+    .examdialog{
       text-align: center;
-      line-height:35px;
-      font-size:14px;
-      border:1px solid #e6e6e6;
-      color: #429bf0;
-      margin-right:15px;
-      cursor: pointer;
-      &.active{
-        background-color: #D89020;
-        color:#fff;
+      img{
+        width:70%;
       }
     }
-    margin-bottom:20px;
-  }
-  .examdialog{
-    text-align: center;
-    img{
-      width:70%;
-    }
-  }
-  .introdialog{
-    .el-dialog__header{
-      text-align: center;
-    }
-    .text{
-      p{
-        line-height:32px;
-        em{
-          color:#f40;
-        }
-        &:first-child{
-          font-weight:bold;
-          color:#f40;
-        }
-      }
-    }
-  }
-  .container{
-    width:100%;
-    height:850px;
-    border:1px solid #ddd;
-    position: relative;
-    overflow:auto;
-    box-sizing:border-box;
-    text-align:center;
-    background:#e6e6e6;
-    .nodata{
-      position: absolute;
-      left:50%;
-      top:50%;
-      transform: translate(-50%,-50%);
-      font-size:14px;
-      p{
+    .introdialog{
+      .el-dialog__header{
         text-align: center;
-        em{
-          color:#f40;
-        }
-        &:first-child{
-          margin-bottom:5px;
+      }
+      .text{
+        p{
+          line-height:32px;
+          em{
+            color:#f40;
+          }
+          &:first-child{
+            font-weight:bold;
+            color:#f40;
+          }
         }
       }
     }
-  }
-  .submit{
-    display:inline-block;
-    width:100px;
-    height:34px;
-    text-align: center;
-    line-height:34px;
-    background-color: #D89020;
-    color:#fff;
-    margin-top:20px;
-    cursor:pointer;
-  }
-  @media screen and (max-width: 1440px){
     .container{
-      height:600px;
+      width:100%;
+      height:850px;
+      border:1px solid #ddd;
+      position: relative;
+      overflow:auto;
+      box-sizing:border-box;
+      text-align:center;
+      background:#e6e6e6;
+      .nodata{
+        position: absolute;
+        left:50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+        font-size:14px;
+        p{
+          text-align: center;
+          em{
+            color:#f40;
+          }
+          &:first-child{
+            margin-bottom:5px;
+          }
+        }
+      }
+    }
+    @media screen and (max-width: 1440px){
+      .container{
+        height:600px;
+      }
     }
   }
+
 </style>

@@ -1,0 +1,43 @@
+$primaryColor: #67c23a;
+$color: #67c23a;
+$background: #f0f9eb;
+$border-color: #c2e7b0;
+.btns{
+  span{
+    display:inline-block;
+    padding:0 20px;
+    height:35px;
+    text-align: center;
+    line-height:35px;
+    font-size:14px;
+    border:1px solid $border-color;
+    background:$background;
+    color: $color;
+    margin-right:15px;
+    cursor: pointer;
+    border-radius:4px;
+    &:hover{
+      background-color: $primaryColor;
+      border-color:$primaryColor;
+      color:#fff;
+    }
+    &.active{
+      background-color: $primaryColor;
+      border-color:$primaryColor;
+      color:#fff;
+    }
+  }
+  margin-bottom:20px;
+}
+.submit{
+  display:inline-block;
+  width:100px;
+  height:34px;
+  text-align: center;
+  line-height:34px;
+  background-color: $primaryColor;
+  color:#fff;
+  margin-top:20px;
+  cursor:pointer;
+  border-radius:4px;
+}

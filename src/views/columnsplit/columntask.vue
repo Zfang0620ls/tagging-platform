@@ -105,45 +105,8 @@ export default {
     }
   }
   @import '../../common/style/maincontent.scss';
+  @import '../../common/style/table.scss';
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-  .tasklist{
-    table{
-      border-collapse: collapse;
-      margin: 0 auto;
-      width: 100%;
-      thead{
-        th{
-          background-color: #f3f7fa;
-          border: 1px solid #e6e6e6;
-          text-align:center;
-          font-size:14px;
-          line-height: 40px;
-          font-weight:bold;
-          color: #5e7386;
-        }
-      }
-      tbody{
-        td{
-          border: 1px solid #e6e6e6;
-          color: #666;
-          height: 30px;
-          text-align:center;
-          font-size:12px;
-          padding:5px 3px;
-          span{
-            cursor:pointer;
-            color: #429BF0;
-            &:first-child{
-              margin-right: 10px;
-              color:#3bd2a2;
-            }
-          }
-        }
-      }
-
-    }
-  }
-
 </style>

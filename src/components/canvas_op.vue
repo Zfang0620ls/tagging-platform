@@ -73,12 +73,14 @@
             ctx.strokeStyle="#2aa766"; // 选中green
             ctx.fillStyle = '#2aa766';
             if (rect.deleted) {
+              ctx.strokeStyle="#f40"; // 红色  删除
               ctx.fillStyle = '#f40'; //红色  删除
             }
           } else if (rect == current) {
             ctx.strokeStyle = "#1892e8"; // 蓝色
             ctx.fillStyle = '#1892e8';
             if (rect.deleted) {
+              ctx.strokeStyle = "#f40"; // 红色
               ctx.fillStyle = '#f40';
             }
             ctx.lineWidth=2*scale;

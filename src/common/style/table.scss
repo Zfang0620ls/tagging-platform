@@ -1,0 +1,40 @@
+.tasklist{
+  table{
+    border-collapse: collapse;
+    margin: 0 auto;
+    width: 100%;
+    thead{
+      th{
+        background-color: #fafafa;
+        border: 1px solid #e6e6e6;
+        text-align:center;
+        font-size:14px;
+        line-height: 40px;
+        font-weight:bold;
+        color: #5e7386;
+      }
+    }
+    tbody{
+      td{
+        border: 1px solid #e6e6e6;
+        color: #666;
+        height: 30px;
+        text-align:center;
+        font-size:12px;
+        padding:5px 3px;
+        span{
+          cursor:pointer;
+          color: #429BF0;
+          &:first-child{
+            color: #409eff;
+            background: #ecf5ff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #b3d8ff;
+          }
+        }
+      }
+    }
+
+  }
+}
