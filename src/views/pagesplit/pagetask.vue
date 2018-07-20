@@ -1,8 +1,8 @@
 <template>
-  <div class="pagesplit" v-title="'页切分标注任务列表'">
+  <div class="pagesplit clearfix" v-title="'页切分标注任务列表'">
     <side-bar></side-bar>
     <div class="content-wrapper">
-      <div class="main-content">
+      <div class="main-content" :collapse="collapse"  v-bind:class="{ ml: collapse }">
         <div class="tasklist">
           <table>
             <thead>
@@ -43,6 +43,7 @@
 <script>
 import SideBar from '../../components/SideBar'; //侧边栏
 import Pager from '../../components/VuePager';
+import bus from '@/bus';
 export default {
   components:{
     SideBar,
@@ -53,7 +54,15 @@ export default {
       list:[],
       curpage:1,
       totalpage:0,
+      collapse:false
     }
+  },
+  created(){
+    // 通过 Event Bus 进行组件间通信，来折叠侧边栏
+    bus.$on('collapse', msg => {
+      console.log(msg);
+      this.collapse = msg;
+    })
   },
   mounted(){
     this.getTasklist();

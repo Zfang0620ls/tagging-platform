@@ -55,6 +55,7 @@ export default {
    },
   data () {
     return {
+      collapse: false,
       activeName: '',
       examVisible:false,
       introVisible:false,

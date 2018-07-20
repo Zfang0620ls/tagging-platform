@@ -4,5 +4,8 @@
     .main-content{
       margin-left: 120px;
       padding: 0 15px 80px 15px;
+      &.ml{
+        margin-left:0;
+      }
     }
   }

@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar-wrapper">
-            <div class="sidebar">
+            <div class="sidebar" :collapse="collapse" v-bind:class="{ sideclose: collapse }">
               <ul class="sidebar-menu">
                 <li :class="{active:linkTo('/home')}">
                   <router-link to="/home">
@@ -35,11 +35,19 @@
 </template>
 
 <script>
+import bus from '../bus';
 export default {
   data () {
     return {
-      msg: ''
+      collapse: false,
     }
+  },
+  created(){
+    // 通过 Event Bus 进行组件间通信，来折叠侧边栏
+    bus.$on('collapse', msg => {
+        console.log(msg);
+      this.collapse = msg;
+    })
   },
   methods:{
   	 linkTo(path){
@@ -71,6 +79,9 @@ export default {
             float: left;
             position: relative;
             margin-right: -100%;
+            &.sideclose{
+              display: none;
+            }
             .sidebar-menu{
               border-left:1px solid #ccc;
               li{

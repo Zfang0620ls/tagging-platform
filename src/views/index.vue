@@ -3,7 +3,13 @@
     <div class="index-in w">
       <div class="page-wrapper">
         <div class="header clearfix">
-          <div class="left fl"><img src="../assets/title.png" height="48" width="540" alt="">&nbsp;<span>欢迎您登录藏经图文标注管理平台！</span></div>
+          <div class="left fl">
+            <img src="../assets/title2.png" alt="">
+            <span class="collapse-btn" @click="collapseChage">
+              <i class="el-icon-menu"></i>
+            </span>&nbsp;
+            <span>欢迎您登录藏经图文标注管理平台！</span>
+          </div>
           <div class="right fr">
             <!-- 全屏显示 -->
             <div class="btn-fullscreen" @click="handleFullScreen">
@@ -71,6 +77,7 @@
 
 <script>
 import util from "@/libs/util";
+import bus from '../bus';
 export default {
   data () {
 
@@ -106,6 +113,7 @@ export default {
     };
     return {
       fullscreen: false,
+      collapse: false,
       form: {
        pass: "",
        newpass: "",
@@ -171,6 +179,11 @@ export default {
       }
       this.fullscreen = !this.fullscreen;
     },
+    // 侧边栏折叠
+    collapseChage(){
+      this.collapse = !this.collapse;
+      bus.$emit('collapse', this.collapse);
+    },
     //退出登录
     logout(){
 
@@ -191,15 +204,21 @@ export default {
 // 解决 dialog 抖动
    .index {
      overflow: hidden;
+     position: absolute;
+     width:100%;
+     min-height:100%;
      .index-in{
+       position: relative;
+       height:100%;
        .page-wrapper{
          position:relative;
+         height:100%;
          min-height:550px;
          .header{
            height:50px;
            line-height:50px;
            background-color: #e6a23c;
-           padding:0 10px;
+           padding:0 5px;
            .left{
              span{
                color: #fff;
@@ -210,9 +229,16 @@ export default {
                font-size:14px;
              }
              img{
-               width: 260px;
-               height:23px;
-               margin-top: 13px;
+               width: 150px;
+               height: 27px;
+               margin-top: 12px;
+             }
+             .collapse-btn{
+               i{
+                 font-size:22px;
+                 position: relative;
+                 top:5px;
+               }
              }
            }
            .right{
