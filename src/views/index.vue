@@ -4,13 +4,20 @@
       <div class="page-wrapper">
         <div class="header clearfix">
           <div class="left fl">
-            <img src="../assets/title2.png" alt="">
+            <img class="logo" src="../assets/title.png" alt="">
             <span class="collapse-btn" @click="collapseChage">
-              <i class="el-icon-menu"></i>
+              <el-tooltip effect="dark" :content="collapse?`取消折叠`:`折叠`" placement="bottom">
+                <i class="el-icon-menu"></i>
+              </el-tooltip>
             </span>&nbsp;
-            <span>欢迎您登录藏经图文标注管理平台！</span>
+            <span>欢迎您登录藏经图文标注平台，深入经藏，智慧如海！</span>
           </div>
           <div class="right fr">
+            <!--帮助-->
+            <el-tooltip effect="dark" :content="`标注帮助`" placement="bottom">
+              <i class="el-icon-question help" @click="showHelp"></i>
+            </el-tooltip>
+            <!--<i class="el-icon-question help"></i>-->
             <!-- 全屏显示 -->
             <div class="btn-fullscreen" @click="handleFullScreen">
               <el-tooltip effect="dark" :content="fullscreen?`取消全屏`:`全屏`" placement="bottom">
@@ -33,6 +40,12 @@
             </el-dropdown>
           </div>
         </div>
+        <!--键盘帮助弹窗-->
+        <el-dialog title="标注平台切分键盘操作帮助" :visible.sync="keyboardVisible" class="keyboard">
+          <div class="key">
+            <img src="../assets/keyboard.png" alt="">
+          </div>
+        </el-dialog>
         <!-- dialog 修改密码弹窗 -->
          <el-dialog title="修改密码" :visible.sync="dialogFormVisible" width="30%" class="changePass">
             <el-form :model="form" :rules="rules" ref="form">
@@ -53,11 +66,7 @@
         </el-dialog>
          <!-- 退出对话框登录 -->
          <el-dialog title="提示" :visible.sync="singdialog" width="30%">
-           <p>您还没有完成标注任务提交,请完成标<br>
-             注任务提交后再退出,或者将未完成的<br>
-             文件保存至本地,否则您之前完成的标<br>
-             注内客将不会被系统记录保存
-           </p>
+           <p><i class="el-icon-warning" style="color:#f40;margin-right:5px;"></i>您还没有完成标注任务提交,请完成标注任务提交后再退出！</p>
            <span slot="footer" class="dialog-footer">
            <el-button type="warning" plain @click="singdialog = false">取消</el-button>
            <el-button type="warning" @click="singdialog = false">确定</el-button>
@@ -124,6 +133,7 @@ export default {
         newpass: [{required:true, validator: validateNewPass, trigger: "blur" }],
         checkpass: [{required:true, validator: validateCheckpass, trigger: "blur" }],
        },
+      keyboardVisible:false,
       dialogFormVisible: false,
       formLabelWidth: "85px",
       singdialog:false ,
@@ -184,6 +194,9 @@ export default {
       this.collapse = !this.collapse;
       bus.$emit('collapse', this.collapse);
     },
+    showHelp(){
+        this.keyboardVisible = true;
+    },
     //退出登录
     logout(){
 
@@ -196,6 +209,14 @@ export default {
   .changePass{
     .el-form-item__label{
       padding-right:5px;
+    }
+  }
+  .keyboard{
+    .key{
+      text-align: center;
+      img{
+        width:85%;
+      }
     }
   }
 </style>
@@ -228,7 +249,7 @@ export default {
                color: #fff;
                font-size:14px;
              }
-             img{
+             .logo{
                width: 150px;
                height: 27px;
                margin-top: 12px;
@@ -242,6 +263,14 @@ export default {
              }
            }
            .right{
+             .help{
+               color:#fff;
+               font-size:22px;
+               cursor: pointer;
+               position: relative;
+               top:3px;
+               margin-right:15px;
+             }
              .btn-fullscreen{
                position: relative;
                top:3px;
@@ -281,7 +310,7 @@ export default {
      }
      .ft{
        width:100%;
-       height:180px;
+       height:110px;
        background:url(../assets/ft.png) no-repeat center center;
      }
    }

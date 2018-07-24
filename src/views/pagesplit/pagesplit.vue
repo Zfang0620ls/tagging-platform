@@ -2,7 +2,7 @@
   <div class="pagesplit" v-title="'页切分标注'">
     <side-bar></side-bar>
     <div class="content-wrapper">
-      <div class="main-content">
+      <div class="main-content" :collapse="collapse"  v-bind:class="{ ml: collapse }">
         <div class="btns">
       <!--<span @click="getData('获取标注数据')" :class="{active:activeName === '获取标注数据'}">获取标注数据</span>-->
       <span @click="examShow('查看示例')" :class="{active:activeName === '查看示例'}">查看示例</span>
@@ -82,6 +82,10 @@ export default {
     }
   },
   created(){
+    // 通过 Event Bus 进行组件间通信，来折叠侧边栏
+    bus.$on('collapse', msg => {
+      this.collapse = msg;
+    })
     //从localStorage中获取数据
     var task = localStorage.getItem('pagesplitDetail')
     if(JSON.parse(task)){
@@ -184,7 +188,8 @@ export default {
       overflow:auto;
       box-sizing:border-box;
       text-align:center;
-      background:#e6e6e6;
+      background:url(../../assets/bg-repeat.png) repeat;
+      background-size:250px 250px;
       .nodata{
         position: absolute;
         left:50%;

@@ -2,7 +2,7 @@
   <div class="home" v-title="'首页'">
     <side-bar></side-bar>
     <div class="content-wrapper">
-      <div class="main-content">
+      <div class="main-content" :collapse="collapse"  v-bind:class="{ ml: collapse }">
         <div class="btns">
           <span :class="{active:activeName === '下载标注说明文档'}" @click="download('下载标注说明文档')">下载标注说明文档</span>
           <span :class="{active:activeName === '查看往期培训视频'}" @click="goVideo('查看往期培训视频')">查看往期培训视频</span>
@@ -38,16 +38,24 @@
   </div>
 </template>
 <script>
-import SideBar from '../../components/SideBar'
+import SideBar from '../../components/SideBar';
+import bus from '@/bus';
 export default {
   components:{
       SideBar
   },
   data () {
     return {
+      collapse:false,
       activeName: '',
       list: []
     }
+  },
+  created(){
+    // 通过 Event Bus 进行组件间通信，来折叠侧边栏
+    bus.$on('collapse', msg => {
+      this.collapse = msg;
+    })
   },
   mounted(){
     this.getWorkingData();
@@ -121,6 +129,7 @@ export default {
     padding:15px 10px;
     background-color: #f8f8f8;
     position: relative;
+    border-radius:3px;
     &:after{
       position: absolute;
       content:"";

@@ -24,13 +24,15 @@
         padding:5px 3px;
         span{
           cursor:pointer;
-          color: #429BF0;
-          &:first-child{
-            color: #409eff;
-            background: #ecf5ff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            border: 1px solid #b3d8ff;
+          color: #409eff;
+          background: #ecf5ff;
+          padding: 5px 10px;
+          border-radius: 5px;
+          border: 1px solid #b3d8ff;
+          &:hover{
+            background: #409eff;
+            border-color: #409eff;
+            color: #fff;
           }
         }
       }
