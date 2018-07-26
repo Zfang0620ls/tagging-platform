@@ -3,41 +3,48 @@
     <side-bar></side-bar>
     <div class="content-wrapper">
       <div class="main-content" :collapse="collapse"  v-bind:class="{ ml: collapse }">
-        <div class="btns">
-      <!--<span @click="getData('获取标注数据')" :class="{active:activeName === '获取标注数据'}">获取标注数据</span>-->
-      <span @click="examShow('查看示例')" :class="{active:activeName === '查看示例'}">查看示例</span>
-      <span @click="introShow('标注说明')" :class="{active:activeName === '标注说明'}">标注说明</span>
-    </div>
-    <!--查看示例-->
-    <el-dialog class="examdialog"
-      title="查看示例"
-      :visible.sync="examVisible"
-      width="60%">
-      <img src="../../assets/exam1.png" alt="标注示例">
-    </el-dialog>
-    <!--标注说明-->
-    <el-dialog class="introdialog"
-               title="标注说明"
-               :visible.sync="introVisible"
-               width="60%">
-      <div class="text">
-        <p>标注说明：</p>
-        <p>1.您需要检查图片外边框是否将图片完全圈住，如有切到图片内字体的情况请调整边框大小。</p>
-        <p>2.使用鼠标按住页框的上下左右四个角可进行放大缩小页框。</p>
-        <p>3.快捷键使用说明：</p>
-        <p>(1).首先使用空格键选中页框再进行以下操作：</p>
-        <p>(2).选中页框后： 按<em>shift 加上 ↑ ↓ ← →</em>键可以将对应的边往外调大;</p>
-        <p>(3).选中页框后： 按<em>alt 加上 ↑ ↓ ← →</em>键可以将对应的边往内调小;</p>
-        <p>(4).选中页框后： 按<em>↑ ↓ ← →</em>键可以上下左右移动页框;</p>
-        <p>(5).选中页框后： 按<em>W+↑ S+↓ A+← D+→</em>键也可以上下左右移动页框;</p>
-        <p>(6).操作完成后按空格键释放页框</p>
-      </div>
-    </el-dialog>
-    <div class="container canvas-layout"  ref="wrapper" :style="{height: inner_height}">
-      <div><canvas-op :redraw="updateCanvas" @scrollToRect="scrollToRect"></canvas-op></div>
-    </div>
-    <div class="submit fr">提交</div>
-      </div>
+        <div class="btns clearfix">
+          <!--<span @click="getData('获取标注数据')" :class="{active:activeName === '获取标注数据'}">获取标注数据</span>-->
+          <div class="btn-group fl">
+            <span @click="examShow('查看示例')" :class="{active:activeName === '查看示例'}">查看示例</span>
+            <span @click="introShow('标注说明')" :class="{active:activeName === '标注说明'}">标注说明</span>
+          </div>
+          <div class="scale fr">
+            <span @click="scale(true)">+</span>
+            <span>1:{{$store.getters.scale}}</span>
+            <span @click="scale(false)">-</span>
+          </div>
+        </div>
+        <!--查看示例-->
+        <el-dialog class="examdialog"
+          title="查看示例"
+          :visible.sync="examVisible"
+          width="60%">
+          <img src="../../assets/exam1.png" alt="标注示例">
+        </el-dialog>
+        <!--标注说明-->
+        <el-dialog class="introdialog"
+                   title="标注说明"
+                   :visible.sync="introVisible"
+                   width="60%">
+          <div class="text">
+            <p>标注说明：</p>
+            <p>1.您需要检查图片外边框是否将图片完全圈住，如有切到图片内字体的情况请调整边框大小。</p>
+            <p>2.使用鼠标按住页框的上下左右四个角可进行放大缩小页框。</p>
+            <p>3.快捷键使用说明：</p>
+            <p>(1).首先使用空格键选中页框再进行以下操作：</p>
+            <p>(2).选中页框后： 按<em>shift 加上 ↑ ↓ ← →</em>键可以将对应的边往外调大;</p>
+            <p>(3).选中页框后： 按<em>alt 加上 ↑ ↓ ← →</em>键可以将对应的边往内调小;</p>
+            <p>(4).选中页框后： 按<em>↑ ↓ ← →</em>键可以上下左右移动页框;</p>
+            <p>(5).选中页框后： 按<em>W+↑ S+↓ A+← D+→</em>键也可以上下左右移动页框;</p>
+            <p>(6).操作完成后按空格键释放页框</p>
+          </div>
+        </el-dialog>
+        <div class="container canvas-layout"  ref="wrapper" :style="{height: inner_height}">
+          <div><canvas-op :redraw="updateCanvas" @scrollToRect="scrollToRect"></canvas-op></div>
+        </div>
+        <div class="submit fr">提交</div>
+        </div>
     </div>
   </div>
 </template>
@@ -63,6 +70,8 @@ export default {
       pagesplitDetail:{},
       pagerect:{},
       updateCanvas: 1,
+      scales: [0.5,1,2],
+      scaleIndex: 1,
       rects:[]
     }
   },
@@ -107,6 +116,16 @@ export default {
     introShow(curname){
       this.activeName = curname;
       this.introVisible = true;
+    },
+    //图片和框放大缩小
+    scale(flag){
+      if(flag == true){
+        this.scaleIndex = Math.min(this.scales.length-1,this.scaleIndex+1);
+        this.$store.commit('setScale', {scale: this.scales[this.scaleIndex]});
+      }else if(flag == false){
+        this.scaleIndex = Math.max(0,this.scaleIndex-1);
+        this.$store.commit('setScale', {scale: this.scales[this.scaleIndex]});
+      }
     },
     //绘制框
     getWorkData() {

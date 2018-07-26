@@ -3,9 +3,16 @@
     <side-bar></side-bar>
     <div class="content-wrapper">
       <div class="main-content" :collapse="collapse"  v-bind:class="{ ml: collapse }">
-        <div class="btns">
-          <span @click="examShow('查看示例')" :class="{active:activeName === '查看示例'}">查看示例</span>
-          <span @click="introShow('标注说明')" :class="{active:activeName === '标注说明'}">标注说明</span>
+        <div class="btns clearfix">
+          <div class="btn-group fl">
+            <span @click="examShow('查看示例')" :class="{active:activeName === '查看示例'}">查看示例</span>
+            <span @click="introShow('标注说明')" :class="{active:activeName === '标注说明'}">标注说明</span>
+          </div>
+          <div class="scale fr">
+            <span @click="scale(true)">+</span>
+            <span>1:{{$store.getters.scale}}</span>
+            <span @click="scale(false)">-</span>
+          </div>
         </div>
         <!--查看示例-->
         <el-dialog class="examdialog"
@@ -71,6 +78,8 @@ export default {
       pagerectId:'',
       inner_height: 100,
       updateCanvas: 1,
+      scales: [0.5,1,2],
+      scaleIndex: 1,
       image_url:'',
       rects:[],
       current:{},
@@ -97,7 +106,7 @@ export default {
     bus.$on('collapse', msg => {
       this.collapse = msg;
     })
-    //获取每页的信息
+    //获取每页的缓存信息
     var task = localStorage.getItem('columnsplitDetail');
     if(JSON.parse(task)){
       this.pagesplitDetail = JSON.parse(task);
@@ -117,6 +126,16 @@ export default {
     introShow(curname){
       this.activeName = curname;
       this.introVisible = true;
+    },
+    //图片和框放大缩小
+    scale(flag){
+      if(flag == true){
+        this.scaleIndex = Math.min(this.scales.length-1,this.scaleIndex+1);
+        this.$store.commit('setScale', {scale: this.scales[this.scaleIndex]});
+      }else if(flag == false){
+        this.scaleIndex = Math.max(0,this.scaleIndex-1);
+        this.$store.commit('setScale', {scale: this.scales[this.scaleIndex]});
+      }
     },
     getWorkingData(){
         let url = '/columnrect/?pagerect=' + this.pagerectId;

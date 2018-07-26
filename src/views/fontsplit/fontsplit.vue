@@ -3,48 +3,55 @@
     <side-bar></side-bar>
     <div class="content-wrapper">
       <div class="main-content" :collapse="collapse"  v-bind:class="{ ml: collapse }">
-        <div class="btns">
+        <div class="btns clearfix">
       <!--<span @click="getData('获取标注数据')" :class="{active:activeName === '获取标注数据'}">获取标注数据</span>-->
-      <span @click="examShow('查看示例')" :class="{active:activeName === '查看示例'}">查看示例</span>
-      <span @click="introShow('标注说明')" :class="{active:activeName === '标注说明'}">标注说明</span>
-    </div>
-    <!--查看示例-->
-    <el-dialog class="examdialog"
-      title="查看示例"
-      :visible.sync="examVisible"
-      width="60%">
-      <img src="../../assets/exam3.png" alt="标注示例">
-    </el-dialog>
-    <!--标注说明-->
-    <el-dialog class="introdialog"
-               title="标注说明"
-               :visible.sync="introVisible"
-               width="60%">
-      <div class="text">
-        <p class="red">标注说明：</p>
-        <p>第一，您需要检查每一个字是否都有字框，如果没有需要您点击右键添加。</p>
-        <p>第二，检查字框是否足够贴合字体，适当压住字体可以。</p>
-        <p class="red">快捷键使用说明：</p>
-        <p>3.快捷键使用说明：</p>
-        <p>(1).首先使用空格键选中页框再进行以下操作：</p>
-        <p>(2).选中页框后： 按<em>shift 加上 ↑ ↓ ← →</em>键可以将对应的边往外调大;</p>
-        <p>(3).选中页框后： 按<em>alt 加上 ↑ ↓ ← →</em>键可以将对应的边往内调小;</p>
-        <p>(4).选中页框后： 按<em>↑ ↓ ← →</em>键可以上下左右移动页框;</p>
-        <p>(5).选中页框后： 按<em>W+↑ S+↓ A+← D+→</em>键也可以上下左右移动页框;</p>
-        <p>(6).操作完成后按空格键释放页框</p>
-      </div>
-    </el-dialog>
-    <div class="container clearfix">
-      <div class="left fl canvas-layout" ref="wrapper" :style="{height: inner_height}">
-        <div><canvas-op :redraw="updateCanvas" @scrollToRect="scrollToRect"></canvas-op></div>
-      </div>
-      <!--<div class="right fr">-->
-        <!--<div class="nodata">-->
-            <!--<p>字框切分标注</p>-->
+          <div class="btn-group fl">
+            <span @click="examShow('查看示例')" :class="{active:activeName === '查看示例'}">查看示例</span>
+            <span @click="introShow('标注说明')" :class="{active:activeName === '标注说明'}">标注说明</span>
+          </div>
+          <div class="scale fr">
+            <span @click="scale(true)">+</span>
+            <span>1:{{$store.getters.scale}}</span>
+            <span @click="scale(false)">-</span>
+          </div>
+        </div>
+        <!--查看示例-->
+        <el-dialog class="examdialog"
+          title="查看示例"
+          :visible.sync="examVisible"
+          width="60%">
+          <img src="../../assets/exam3.png" alt="标注示例">
+        </el-dialog>
+        <!--标注说明-->
+        <el-dialog class="introdialog"
+                   title="标注说明"
+                   :visible.sync="introVisible"
+                   width="60%">
+          <div class="text">
+            <p class="red">标注说明：</p>
+            <p>第一，您需要检查每一个字是否都有字框，如果没有需要您点击右键添加。</p>
+            <p>第二，检查字框是否足够贴合字体，适当压住字体可以。</p>
+            <p class="red">快捷键使用说明：</p>
+            <p>3.快捷键使用说明：</p>
+            <p>(1).首先使用空格键选中页框再进行以下操作：</p>
+            <p>(2).选中页框后： 按<em>shift 加上 ↑ ↓ ← →</em>键可以将对应的边往外调大;</p>
+            <p>(3).选中页框后： 按<em>alt 加上 ↑ ↓ ← →</em>键可以将对应的边往内调小;</p>
+            <p>(4).选中页框后： 按<em>↑ ↓ ← →</em>键可以上下左右移动页框;</p>
+            <p>(5).选中页框后： 按<em>W+↑ S+↓ A+← D+→</em>键也可以上下左右移动页框;</p>
+            <p>(6).操作完成后按空格键释放页框</p>
+          </div>
+        </el-dialog>
+        <div class="container clearfix">
+          <div class="left fl canvas-layout" ref="wrapper" :style="{height: inner_height}">
+            <div><canvas-op :redraw="updateCanvas" @scrollToRect="scrollToRect"></canvas-op></div>
+          </div>
+          <!--<div class="right fr">-->
+            <!--<div class="nodata">-->
+                <!--<p>字框切分标注</p>-->
+              <!--</div>-->
           <!--</div>-->
-      <!--</div>-->
-    </div>
-    <div class="submit fr">提交</div>
+        </div>
+        <div class="submit fr">提交</div>
       </div>
     </div>
   </div>
@@ -71,6 +78,8 @@ export default {
       pagerectId:'',
       inner_height: 100,
       updateCanvas: 1,
+      scales: [0.5,1,2],
+      scaleIndex: 1,
       image_url:'',
       rects:[],
       current:{},
@@ -117,6 +126,16 @@ export default {
     introShow(curname){
       this.activeName = curname;
       this.introVisible = true;
+    },
+    //图片和框放大缩小
+    scale(flag){
+      if(flag == true){
+        this.scaleIndex = Math.min(this.scales.length-1,this.scaleIndex+1);
+        this.$store.commit('setScale', {scale: this.scales[this.scaleIndex]});
+      }else if(flag == false){
+        this.scaleIndex = Math.max(0,this.scaleIndex-1);
+        this.$store.commit('setScale', {scale: this.scales[this.scaleIndex]});
+      }
     },
     getWorkingData(){
       let url = '/charrect/?pagerect=' + this.pagerectId;
